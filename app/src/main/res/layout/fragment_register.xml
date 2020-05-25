@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sv_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".RegisterFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/imageView_profileImage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_user_main"
+            android:layout_marginTop="70dp"/>
+
+        <Button
+            android:id="@+id/button_profileImageSet"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageView_profileImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="이미지 등록"
+            android:textSize="15sp"/>
+        <EditText
+            android:id="@+id/editText_register_email"
+            android:layout_width="240dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/imageView_profileImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:hint="이메일을 입력해주세요." />
+        <EditText
+            android:id="@+id/editText_register_password"
+            android:layout_width="240dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/editText_register_email"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:inputType="textPassword"
+            android:hint="비밀번호를 입력해주세요." />
+
+        <EditText
+            android:id="@+id/editText_register_password_again"
+            android:layout_width="240dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/editText_register_password"
+            android:inputType="textPassword"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:hint="비밀번호를 재입력해주세요."
+            android:maxLength="12"/>
+
+        <EditText
+            android:id="@+id/editText_register_name"
+            android:layout_width="240dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/editText_register_password_again"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:hint="이름을 입력해주세요." />
+
+        <EditText
+            android:id="@+id/editText_register_nickName"
+            android:layout_width="240dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/editText_register_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:hint="닉네임을 입력해주세요." />
+
+        <EditText
+            android:id="@+id/editText_register_age"
+            android:layout_width="240dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/editText_register_nickName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:hint="나이를 입력해주세요." />
+
+        <EditText
+            android:id="@+id/editText_register_sex"
+            android:layout_width="240dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/editText_register_age"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:hint="성별을 입력해주세요." />
+
+        <Button
+            android:id="@+id/button_register_signUp"
+            android:background="@drawable/button_rectangle"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/editText_register_sex"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="회원 가입"
+            android:textSize="15sp"/>
+    </RelativeLayout>
+</ScrollView>
+
