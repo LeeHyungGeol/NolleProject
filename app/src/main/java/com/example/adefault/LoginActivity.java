@@ -106,6 +106,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if(response.isSuccessful()) {
                         progressOFF();
                         LoginResponseDTO loginResponseDTO = response.body();
+                        System.out.println(loginResponseDTO);
+                        System.out.println(loginResponseDTO.getUser().getIdx());
+                        System.out.println(loginResponseDTO.getUser().getUser_email());
+                        System.out.println(loginResponseDTO.getToken());
+//                        setUser(loginResponseDTO.getUser(), loginResponseDTO.getToken());
+                        setUser(loginResponseDTO.getUser().getIdx(), loginResponseDTO.getUser().getUser_email(), loginResponseDTO.getUser().getUser_nm()
+                                ,loginResponseDTO.getUser().getNickname(), loginResponseDTO.getUser().getPassword(), loginResponseDTO.getUser().getAge()
+                                ,loginResponseDTO.getUser().getSex(), loginResponseDTO.getToken());
                         Intent intent = new Intent(AppManager.getInstance().getContext(), MainActivity.class);
                         startActivity(intent);
                     }
@@ -135,6 +143,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //    private void showLoadError(String message) {
 //        Toast.makeText(AppManager().getInstance().getContext(), message, Toast.LENGTH_SHORT).show();
 //    }
+
+    public void setUser(int idx, String email, String name, String nickname, String password, String age, String sex, String token) {
+        AppManager.getInstance().getUser().setIdx(idx);
+        AppManager.getInstance().getUser().setUser_email(email);
+        AppManager.getInstance().getUser().setUser_nm(name);
+        AppManager.getInstance().getUser().setNickname(nickname);
+        AppManager.getInstance().getUser().setPassword(password);
+        AppManager.getInstance().getUser().setAge(age);
+        AppManager.getInstance().getUser().setSex(sex);
+
+        AppManager.getInstance().getUser().setToken(token);
+    }
 
 
     @Override

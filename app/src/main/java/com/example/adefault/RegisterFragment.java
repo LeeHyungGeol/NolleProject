@@ -205,10 +205,6 @@ public class RegisterFragment extends DialogFragment implements View.OnClickList
                 @Override
                 public void onResponse(Call<RegisterResponseDTO> call, Response<RegisterResponseDTO> response) {
                     if(response.isSuccessful()) {
-                        System.out.println(response.body().getUser().getUser_email());
-                        System.out.println(response.body().getUser().getToken());
-                        RegisterResponseDTO registerResponseDTO = response.body();
-                        setUser(registerResponseDTO.getUser(), registerResponseDTO.getToken());
                         progressOFF();
                         confirmDialog.setMessage("회원가입 완료!");
                         confirmDialog.show();
@@ -235,16 +231,5 @@ public class RegisterFragment extends DialogFragment implements View.OnClickList
         ImageManager.getInstance().progressOFF();
     }
 
-    public void setUser(User user, String token) {
-        AppManager.getInstance().getmRegisterResponseDTO().getUser().setIdx(user.getIdx());
-        AppManager.getInstance().getmRegisterResponseDTO().getUser().setUser_email(user.getUser_email());
-        AppManager.getInstance().getmRegisterResponseDTO().getUser().setUser_nm(user.getUser_nm());
-        AppManager.getInstance().getmRegisterResponseDTO().getUser().setNickname(user.getNickname());
-        AppManager.getInstance().getmRegisterResponseDTO().getUser().setPassword(user.getPassword());
-        AppManager.getInstance().getmRegisterResponseDTO().getUser().setAge(user.getAge());
-        AppManager.getInstance().getmRegisterResponseDTO().getUser().setSex(user.getSex());
-
-        AppManager.getInstance().getmRegisterResponseDTO().setToken(token);
-    }
 
 }

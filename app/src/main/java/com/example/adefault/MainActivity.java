@@ -1,12 +1,13 @@
 package com.example.adefault;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.os.Bundle;
-import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -15,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fm;
     private FragmentTransaction ft;
     private HomeFragment homefragment;
-    private AddFragment addfragment;
     private MenuFragment menufragment;
     private MyPageFragment mypagefragment;
     private SearchFragment searchfragment;
@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
         homefragment = new HomeFragment();
         menufragment = new MenuFragment();
-        addfragment = new AddFragment();
         searchfragment = new SearchFragment();
         mypagefragment = new MyPageFragment();
 
@@ -76,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     {
         fm = getSupportFragmentManager();
         ft= fm.beginTransaction();
+
         switch (n)
         {
             case 0:
@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case 2:
-                ft.replace(R.id.Main_Frame,addfragment);
-                ft.commit();
+                Intent intent = new Intent(MainActivity.this, AddBoardActivity.class);
+                startActivity(intent);
                 break;
             case 3:
                 ft.replace(R.id.Main_Frame,searchfragment);

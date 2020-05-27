@@ -11,6 +11,7 @@ import com.example.adefault.MainActivity;
 import com.example.adefault.ConfirmDialog;
 import com.example.adefault.model.LoginResponseDTO;
 import com.example.adefault.model.RegisterResponseDTO;
+import com.example.adefault.model.User;
 
 import java.util.ArrayList;
 
@@ -24,10 +25,12 @@ public class AppManager {
     private Context context;
     private Resources resources;
 
-    private RegisterResponseDTO mRegisterResponseDTO;
+    private LoginResponseDTO mLoginResponseDTO;
+    private User user;
 
     private AppManager() {
-        mRegisterResponseDTO = new RegisterResponseDTO();
+        user = new User();
+        mLoginResponseDTO = new LoginResponseDTO();
     }
 
 
@@ -54,12 +57,21 @@ public class AppManager {
 
     //객체를 저장하고 불러오는 메소드들을 생성.
 
-    public RegisterResponseDTO getmRegisterResponseDTO() {
-        return mRegisterResponseDTO;
+
+    public User getUser() {
+        return user;
     }
 
-    public void setmRegisterResponseDTO(RegisterResponseDTO mRegisterResponseDTO) {
-        this.mRegisterResponseDTO = mRegisterResponseDTO;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public LoginResponseDTO getmLoginResponseDTO() {
+        return mLoginResponseDTO;
+    }
+
+    public void setmLoginResponseDTO(LoginResponseDTO mLoginResponseDTO) {
+        this.mLoginResponseDTO = mLoginResponseDTO;
     }
 
     public Context getContext() { return context;}

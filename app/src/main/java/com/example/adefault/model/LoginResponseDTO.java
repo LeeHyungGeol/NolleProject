@@ -1,14 +1,14 @@
 package com.example.adefault.model;
 
 public class LoginResponseDTO {
-    private String user;
+    private User user;
     private String token;
 
-    public String getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(String user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
