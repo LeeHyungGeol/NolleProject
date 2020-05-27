@@ -22,6 +22,7 @@ import com.example.adefault.manager.AppManager;
 import com.example.adefault.manager.ImageManager;
 import com.example.adefault.model.LoginDTO;
 import com.example.adefault.model.LoginResponseDTO;
+import com.example.adefault.model.User;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -102,16 +103,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mUserLoginRepository.getLoginData(new Callback<LoginResponseDTO>() {
                 @Override
                 public void onResponse(Call<LoginResponseDTO> call, Response<LoginResponseDTO> response) {
-                    //progressOFF();
-                    LoginResponseDTO loginResponseDTO = response.body();
-                    setUser(loginResponseDTO.getUser(), loginResponseDTO.getToken());
-                    Intent intent = new Intent(AppManager.getInstance().getContext(),MainActivity.class);
-                    startActivity(intent);
-                    progressOFF();
+                    if(response.isSuccessful()) {
+                        progressOFF();
+                        LoginResponseDTO loginResponseDTO = response.body();
+                        Intent intent = new Intent(AppManager.getInstance().getContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<LoginResponseDTO> call, Throwable t) {
+                    System.out.println(t.getMessage());
                     progressOFF();
                     confirmDialog.setMessage("로그인 정보가 잘못되었습니다.");
                     confirmDialog.show();
@@ -134,10 +136,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //        Toast.makeText(AppManager().getInstance().getContext(), message, Toast.LENGTH_SHORT).show();
 //    }
 
-    public void setUser(String user, String token) {
-        AppManager.getInstance().getLoginResponseDTO().setUser(user);
-        AppManager.getInstance().getLoginResponseDTO().setToken(token);
-    }
 
     @Override
     public void onBackPressed() {

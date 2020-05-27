@@ -10,7 +10,7 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface RestApi {
-    String BASE_URL = "http://29267249.ngrok.io";
+    String BASE_URL = "http://e75e600a.ngrok.io/";
     //String BASE_URL = "http://172.30.1.42:8000/";
 
     @POST("loginApp/auth/register/")

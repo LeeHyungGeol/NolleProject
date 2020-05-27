@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.example.adefault.MainActivity;
 import com.example.adefault.ConfirmDialog;
 import com.example.adefault.model.LoginResponseDTO;
+import com.example.adefault.model.RegisterResponseDTO;
 
 import java.util.ArrayList;
 
@@ -23,10 +24,10 @@ public class AppManager {
     private Context context;
     private Resources resources;
 
-    private LoginResponseDTO loginResponseDTO;
+    private RegisterResponseDTO mRegisterResponseDTO;
 
     private AppManager() {
-        loginResponseDTO = new LoginResponseDTO();
+        mRegisterResponseDTO = new RegisterResponseDTO();
     }
 
 
@@ -51,9 +52,15 @@ public class AppManager {
         Toast.makeText(context, "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
     }
 
-    public LoginResponseDTO getLoginResponseDTO() { return loginResponseDTO; }
+    //객체를 저장하고 불러오는 메소드들을 생성.
 
-    public void setLoginResponseDTO(LoginResponseDTO loginResponseDTO) { this.loginResponseDTO = loginResponseDTO; }
+    public RegisterResponseDTO getmRegisterResponseDTO() {
+        return mRegisterResponseDTO;
+    }
+
+    public void setmRegisterResponseDTO(RegisterResponseDTO mRegisterResponseDTO) {
+        this.mRegisterResponseDTO = mRegisterResponseDTO;
+    }
 
     public Context getContext() { return context;}
     public void setContext(Context context) { this.context = context; }

@@ -22,9 +22,14 @@ public class UserRegisterRepository implements RegisterRepository{
 
     @Override
     public boolean isAvailable() {
-//        if(mUser.getUser_email().toString().length() < 6 || mUser.getPassword().toString().length() < 4)
-//            return false;
-        //else
+        if(mUser.getUser_email().toString().length() == 0 || mUser.getPassword().toString().length() == 0 || mUser.getUser_nm().toString().length() == 0
+         || mUser.getAge().toString().length() == 0 || mUser.getNickname().toString().length() == 0 || mUser.getSex().toString().length() == 0 )
+            return false;
+
+        else if(mUser.getUser_email().toString().length() < 6 || mUser.getPassword().toString().length() < 4)
+            return false;
+
+        else
             return true;
     }
 

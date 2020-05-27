@@ -21,6 +21,7 @@ import com.example.adefault.data.RegisterRepository;
 import com.example.adefault.data.UserRegisterRepository;
 import com.example.adefault.manager.AppManager;
 import com.example.adefault.manager.ImageManager;
+import com.example.adefault.model.LoginResponseDTO;
 import com.example.adefault.model.RegisterResponseDTO;
 import com.example.adefault.model.User;
 
@@ -200,32 +201,50 @@ public class RegisterFragment extends DialogFragment implements View.OnClickList
         mUserRegisterRepository = new UserRegisterRepository(user);
 
         if(mUserRegisterRepository.isAvailable()) {
-            System.out.println(mUserRegisterRepository.isAvailable());
             mUserRegisterRepository.getRegisterData(new Callback<RegisterResponseDTO>() {
                 @Override
                 public void onResponse(Call<RegisterResponseDTO> call, Response<RegisterResponseDTO> response) {
-                    System.out.println(response.body());
-                    progressOFF();
-                    confirmDialog.setMessage("회원가입 완료!");
-                    confirmDialog.show();
-                    dismiss();
+                    if(response.isSuccessful()) {
+                        System.out.println(response.body().getUser().getUser_email());
+                        System.out.println(response.body().getUser().getToken());
+                        RegisterResponseDTO registerResponseDTO = response.body();
+                        setUser(registerResponseDTO.getUser(), registerResponseDTO.getToken());
+                        progressOFF();
+                        confirmDialog.setMessage("회원가입 완료!");
+                        confirmDialog.show();
+                        dismiss();
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<RegisterResponseDTO> call, Throwable t) {
+                    System.out.println(t.getMessage());
                     progressOFF();
-                    confirmDialog.setMessage("회원가입 실패!");
+                    confirmDialog.setMessage("아이디는 6글자 이상, 비밀번호는 4글자 이상이여야합니다.");
                     confirmDialog.show();
                 }
             });
         }
     }
 
+
     public void progressON(String message) {
         ImageManager.getInstance().progressON((Activity)AppManager.getInstance().getContext(), message);
     }
     public void progressOFF() {
         ImageManager.getInstance().progressOFF();
+    }
+
+    public void setUser(User user, String token) {
+        AppManager.getInstance().getmRegisterResponseDTO().getUser().setIdx(user.getIdx());
+        AppManager.getInstance().getmRegisterResponseDTO().getUser().setUser_email(user.getUser_email());
+        AppManager.getInstance().getmRegisterResponseDTO().getUser().setUser_nm(user.getUser_nm());
+        AppManager.getInstance().getmRegisterResponseDTO().getUser().setNickname(user.getNickname());
+        AppManager.getInstance().getmRegisterResponseDTO().getUser().setPassword(user.getPassword());
+        AppManager.getInstance().getmRegisterResponseDTO().getUser().setAge(user.getAge());
+        AppManager.getInstance().getmRegisterResponseDTO().getUser().setSex(user.getSex());
+
+        AppManager.getInstance().getmRegisterResponseDTO().setToken(token);
     }
 
 }
