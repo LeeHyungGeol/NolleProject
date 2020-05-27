@@ -106,11 +106,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if(response.isSuccessful()) {
                         progressOFF();
                         LoginResponseDTO loginResponseDTO = response.body();
-                        System.out.println(loginResponseDTO);
-                        System.out.println(loginResponseDTO.getUser().getIdx());
-                        System.out.println(loginResponseDTO.getUser().getUser_email());
-                        System.out.println(loginResponseDTO.getToken());
-//                        setUser(loginResponseDTO.getUser(), loginResponseDTO.getToken());
                         setUser(loginResponseDTO.getUser().getIdx(), loginResponseDTO.getUser().getUser_email(), loginResponseDTO.getUser().getUser_nm()
                                 ,loginResponseDTO.getUser().getNickname(), loginResponseDTO.getUser().getPassword(), loginResponseDTO.getUser().getAge()
                                 ,loginResponseDTO.getUser().getSex(), loginResponseDTO.getToken());
@@ -122,6 +117,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onFailure(Call<LoginResponseDTO> call, Throwable t) {
                     System.out.println(t.getMessage());
+                    Log.d("통신","실패");
                     progressOFF();
                     confirmDialog.setMessage("로그인 정보가 잘못되었습니다.");
                     confirmDialog.show();

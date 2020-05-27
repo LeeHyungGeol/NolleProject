@@ -328,13 +328,13 @@ public class AddBoardActivity extends FragmentActivity {
         call.enqueue(new Callback<BoardResponseDTO>() {
             @Override
             public void onResponse(Call<BoardResponseDTO> call, Response<BoardResponseDTO> response) {
-                if(response.isSuccessful()) {
+                //if(response.isSuccessful()) {
                     System.out.println(response.isSuccessful());
                     BoardResponseDTO boardResponseDTO = response.body();
                     System.out.println(boardResponseDTO.getCheck());
                     System.out.println("게시글 업로드 성공");
                     Toast.makeText(AddBoardActivity.this, "게시글 업로드 성공!!", Toast.LENGTH_LONG).show();
-                }
+                //}
             }
 
             @Override

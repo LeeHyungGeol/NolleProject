@@ -42,18 +42,18 @@ public class ImageManager {
         return instance;
     }
 
-    public void GlideInto(Context context, ImageView iv, String url) {
-
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(8));
-
-        Glide.with(context)
-                .load(url)
-                .apply(requestOptions)
-                .placeholder(R.drawable.ic_user_main) // loading img
-                .error(R.drawable.ic_user_main) // error img
-                .into(iv);
-    }
+//    public void GlideInto(Context context, ImageView iv, String url) {
+////
+////        RequestOptions requestOptions = new RequestOptions();
+////        requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(8));
+////
+////        Glide.with(context)
+////                .load(url)
+////                .apply(requestOptions)
+////                .placeholder(R.drawable.ic_user_main) // loading img
+////                .error(R.drawable.ic_user_main) // error img
+////                .into(iv);
+////    }
 
 //    public String getFullImageString(String img_str, String type_str) {
 //        String buf[] = img_str.split("/");
