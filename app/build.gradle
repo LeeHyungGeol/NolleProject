@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+android.defaultConfig.vectorDrawables.useSupportLibrary = true
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -31,6 +31,7 @@ android {
 allprojects { //추가
     repositories {
         maven { url "https://jitpack.io" }
+        google()
     }
 }
 
@@ -56,8 +57,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
 
     //이미지 피커
-    implementation 'com.github.esafirm.android-image-picker:imagepicker:1.13.1'  // for experimental rx picker
+    implementation 'com.github.esafirm.android-image-picker:imagepicker:1.13.1'
+    // for experimental rx picker
     implementation 'com.github.esafirm.android-image-picker:rximagepicker:1.13.1'
 // If you have a problem with Glide, please use the same Glide version or simply open an issue
+
+
+
 
 }
