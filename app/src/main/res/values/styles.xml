@@ -16,7 +16,21 @@
         <item name="android:progressDrawable">@drawable/ratingstars</item>
         <item name="android:minHeight">0dip</item>
         <item name="android:maxHeight">20dip</item>
+    </style>
 
+    <style name="reviewRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingstar_big</item>
+        <item name="android:minHeight">0dip</item>
+        <item name="android:maxHeight">100dip</item>
+    </style>
+
+    <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">@color/quantum_grey500</item>
+        <item name="colorControlActivated">@color/quantum_grey500</item>
+        <item name="android:textCursorDrawable">@color/quantum_grey500</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textColorHint">@color/quantum_grey500</item>
+        <item name="android:textColorHighlight">@color/quantum_grey500</item>
     </style>
 
 </resources>

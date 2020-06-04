@@ -10,6 +10,60 @@ public class PlaceData {
     private String img_url_3;
     private String img_url_4;
     private String img_url_5;
+    private String tag_1;
+    private String tag_2;
+    private String tag_3;
+    private String tag_4;
+    private String tag_5;
+    private String tag_6;
+
+    public String getTag_1() {
+        return tag_1;
+    }
+
+    public void setTag_1(String tag_1) {
+        this.tag_1 = tag_1;
+    }
+
+    public String getTag_2() {
+        return tag_2;
+    }
+
+    public void setTag_2(String tag_2) {
+        this.tag_2 = tag_2;
+    }
+
+    public String getTag_3() {
+        return tag_3;
+    }
+
+    public void setTag_3(String tag_3) {
+        this.tag_3 = tag_3;
+    }
+
+    public String getTag_4() {
+        return tag_4;
+    }
+
+    public void setTag_4(String tag_4) {
+        this.tag_4 = tag_4;
+    }
+
+    public String getTag_5() {
+        return tag_5;
+    }
+
+    public void setTag_5(String tag_5) {
+        this.tag_5 = tag_5;
+    }
+
+    public String getTag_6() {
+        return tag_6;
+    }
+
+    public void setTag_6(String tag_6) {
+        this.tag_6 = tag_6;
+    }
 
     public String getImg_url_1() {
         return img_url_1;

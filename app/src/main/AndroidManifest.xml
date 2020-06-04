@@ -13,8 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity"></activity>
-        <!-- google place api -->
+        <activity android:name=".MyPostingListActivity"></activity>
+        <activity android:name=".OtherUserFollwerListActivity" />
+        <activity android:name=".OtherUserFollowingListActivity" />
+        <activity android:name=".MyPageFollwerListActivity" />
+        <activity android:name=".MyPageFollowingListActivity" />
+        <activity android:name=".OtherUserPageActivity" />
+        <activity
+            android:name=".PopUpProfileEdit"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".MainActivity" /> <!-- google place api -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBLf4XF6AC1wJONoWVE6rtwcpQZLl8pXnU" /> <!-- google service -->
@@ -22,15 +30,15 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".PlaceDetailActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
         <activity android:name=".AddBoardActivity" />
+        <activity android:name=".PlaceDetailActivity" />
     </application>
 
 </manifest>
