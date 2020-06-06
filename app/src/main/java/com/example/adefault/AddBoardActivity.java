@@ -1,5 +1,6 @@
 package com.example.adefault;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -31,6 +32,8 @@ import androidx.fragment.app.FragmentActivity;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.example.adefault.adapter.PlaceAutoSuggestAdapter;
+import com.example.adefault.manager.AppManager;
+import com.example.adefault.manager.ImageManager;
 import com.example.adefault.model.BoardDTO;
 import com.example.adefault.model.BoardResponseDTO;
 import com.example.adefault.util.RestApi;
@@ -52,6 +55,7 @@ import retrofit2.Retrofit;
 
 public class AddBoardActivity extends FragmentActivity {
 
+    private ConfirmDialog confirmDialog;
     private AutoCompleteTextView autoCompleteTextView;
     private BoardDTO boardDTO; ////게시판 내용이 들어가있는 객체
     private ImageView imageView;
@@ -74,6 +78,10 @@ public class AddBoardActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AppManager.getInstance().setContext(this);
+        AppManager.getInstance().setResources(getResources());
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);  //타이틀바 없애기
         setContentView(R.layout.activity_add_board);
         init();
@@ -102,6 +110,7 @@ public class AddBoardActivity extends FragmentActivity {
 
 
     private void init(){
+        confirmDialog = new ConfirmDialog(AppManager.getInstance().getContext());
         boardDTO = new BoardDTO();
         autoCompleteTextView = findViewById(R.id.autocomplete);
         autoCompleteTextView.setAdapter(new PlaceAutoSuggestAdapter(AddBoardActivity.this,R.layout.search_place_list_layout));
@@ -268,83 +277,77 @@ public class AddBoardActivity extends FragmentActivity {
 
 
     private void upLoad() { //서버에 게시글 보내기
+
+        progressON("게시글 업로드중...");
         String token = "Token cb74383e39311b489f5491bf90bdb1893fa17aeb6f6370fc9f982e3a2d6dff86";
         Retrofit mRetrofit = RestApiUtil.getRetrofitClient(this);
         RestApi restApi = mRetrofit.create(RestApi.class);
 
         Map<String, RequestBody> boardMaps = new HashMap<>();
+        ArrayList<RequestBody> RequestBodyTags = new ArrayList<>();
+        ArrayList<RequestBody> RequestBodyImages = new ArrayList<>();
 
         RequestBody requestPlaceID = RequestBody.create(MediaType.parse("text/plain"), boardDTO.getPlace_id());
         RequestBody requestRating = RequestBody.create(MediaType.parse("text/plain"), boardDTO.getRating());
         RequestBody requestContext = RequestBody.create(MediaType.parse("text/plain"), boardDTO.getContext());
 
-
-//        System.out.println("1 : " + boardDTO.getPlace_id());
-//        System.out.println("1 : " + boardDTO.getRating());
-//        System.out.println("1 : " + boardDTO.getContext());
         //입력 데이터:  place_id, rating, context, img_url_1 ~ img_url_5, tag_1 ~ tag_5
 
         boardMaps.put("place_id", requestPlaceID);
         boardMaps.put("rating", requestRating);
         boardMaps.put("context", requestContext);
 
-//        System.out.println("2 : " + boardMaps.get("place_id"));
-//        System.out.println("2 : " + boardMaps.get("rating"));
-//        System.out.println("2 : " + boardMaps.get("context"));
-
-        ArrayList<RequestBody> RequestBodyTags = new ArrayList<>();
-        ArrayList<RequestBody> RequestBodyImages = new ArrayList<>();
-
-//        System.out.println("3 : " + tagList.size());
-//        System.out.println("3 : " + files.size());
-
-
         for (int i = 0; i < tagList.size(); i++) {
             RequestBodyTags.add(RequestBody.create(MediaType.parse("text/plain"), boardDTO.getTag().get(i)));
-//            System.out.println("4 : " + boardDTO.getTag().get(i));
-
             boardMaps.put("tag_" + (i + 1), RequestBodyTags.get(i));
-
         }
-
-
-//        params.put("newProfilePicture" + "\"; filename=\"" + FilenameUtils.getName(file.getAbsolutePath())
-//                , RequestBody.create(MediaType.parse("image/jpg"), file));
 
         for (int i = 0; i < files.size(); i++) {
             RequestBodyImages.add(RequestBody.create(MediaType.parse("image/*"), files.get(i)));
-//            boardMaps.put("file\"; filename=\"" + files.get(i).getName() + "\"", RequestBodyImages.get(i));
             boardMaps.put( "img_" + (i+1) + "\"; filename=\"" + files.get(i).getName() , RequestBodyImages.get(i));
-//            "url_upload\"; filename=\"photo.png\""
-
-            //System.out.println( "img_url_" + (i+1) + "\"; filename=\"" + files.get(i).getName() + "\"" );
-            System.out.println( "img_" + (i+1) + "\"; filename=\"" + files.get(i).getName());
         }
 
         System.out.println("게시글 업로드 시작");
 
-
         Call<BoardResponseDTO> call = restApi.uploadBoard(token, boardMaps);
+
         call.enqueue(new Callback<BoardResponseDTO>() {
             @Override
             public void onResponse(Call<BoardResponseDTO> call, Response<BoardResponseDTO> response) {
-                //if(response.isSuccessful()) {
+                if(response.isSuccessful()) {
+                    progressOFF();
                     System.out.println(response.isSuccessful());
                     BoardResponseDTO boardResponseDTO = response.body();
                     System.out.println(boardResponseDTO.getCheck());
-                    System.out.println("게시글 업로드 성공");
-                    Toast.makeText(AddBoardActivity.this, "게시글 업로드 성공!!", Toast.LENGTH_LONG).show();
-                //}
+                    System.out.println("게시글 업로드 완료!!");
+                    confirmDialog.setMessage("게시글 업로드 완료!!");
+                    setResult(Activity.RESULT_OK);
+                    finish();
+                }
+                else {
+                    progressOFF();
+                    confirmDialog.setMessage("게시글 업로드 실패");
+                    confirmDialog.show();
+                }
             }
 
             @Override
             public void onFailure(Call<BoardResponseDTO> call, Throwable t) {
                 System.out.println(t.getMessage());
                 System.out.println("게시글 업로드 실패");
-                Toast.makeText(AddBoardActivity.this, "게시글 업로드 실패!!", Toast.LENGTH_LONG).show();
+                confirmDialog.setMessage("게시글 업로드 실패");
+                confirmDialog.show();
             }
         });
 
+    }
+
+    public void progressON(String message) {
+        ImageManager.getInstance().progressON((Activity)AppManager.getInstance().getContext(), message);
+    }
+
+    public void progressOFF() {
+        ImageManager.getInstance().progressOFF();
     }
 
 

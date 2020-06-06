@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.adefault.manager.AppManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+
     private BottomNavigationView bottomNavigationView; // 바텀 네비게이션 뷰
     private FragmentManager fm;
     private FragmentTransaction ft;
@@ -23,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AppManager.getInstance().setContext(this);
+        AppManager.getInstance().setResources(getResources());
+
         setContentView(R.layout.activity_main);
 
         setActionBar();
@@ -64,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         mypagefragment = new MyPageFragment();
 
         setFrag(0); // 첫 프래그먼트 화면 지정
+
+        AppManager.getInstance().setMainActivity(this);
+
     }
 
     private void setActionBar() {
@@ -100,10 +109,6 @@ public class MainActivity extends AppCompatActivity {
                 ft.replace(R.id.Main_Frame,mypagefragment);
                 ft.commit();
                 break;
-
-
-
-
         }
     }
 }

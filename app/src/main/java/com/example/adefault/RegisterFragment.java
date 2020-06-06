@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,12 +46,13 @@ public class RegisterFragment extends DialogFragment implements View.OnClickList
     private EditText et_rePassword;
     private EditText et_nickName;
     private EditText et_name;
+    private DatePicker datePicker;
     private EditText et_age;
-    private EditText et_sex;
-
     private Button btn_register;
     private Button btn_imageSet;
-
+    private Button btn_male;
+    private Button btn_female;
+    private String sex;
     private ConfirmDialog confirmDialog;
 
     public RegisterFragment() {} //기본 생성자 반드시 필요함
@@ -107,12 +110,11 @@ public class RegisterFragment extends DialogFragment implements View.OnClickList
         et_rePassword = view.findViewById(R.id.editText_register_password_again);
         et_name = view.findViewById(R.id.editText_register_name);
         et_nickName = view.findViewById(R.id.editText_register_nickName);
-        et_sex = view.findViewById(R.id.editText_register_sex);
         et_age = view.findViewById(R.id.editText_register_age);
-
         btn_imageSet = view.findViewById(R.id.button_profileImageSet);
         btn_register = view.findViewById(R.id.button_register_signUp);
-
+        btn_male = view.findViewById(R.id.maleButton);
+        btn_female = view.findViewById(R.id.femaleButton);
     }
 
     public void initListener() {
@@ -120,18 +122,27 @@ public class RegisterFragment extends DialogFragment implements View.OnClickList
         et_password.setOnClickListener(this);
         et_rePassword.setOnClickListener(this);
         et_nickName.setOnClickListener(this);
-        et_age.setOnClickListener(this);
-        et_sex.setOnClickListener(this);
 
         et_email.setOnFocusChangeListener(this);
         et_password.setOnFocusChangeListener(this);
         et_rePassword.setOnFocusChangeListener(this);
         et_nickName.setOnFocusChangeListener(this);
-        et_age.setOnFocusChangeListener(this);
-        et_sex.setOnFocusChangeListener(this);
 
         btn_imageSet.setOnClickListener(this);
         btn_register.setOnClickListener(this);
+        btn_male.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sex = btn_male.getText().toString();
+                System.out.println(sex);
+            }
+        });
+        btn_female.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sex = btn_female.getText().toString();
+            }
+        });
 
     }
 
@@ -150,7 +161,6 @@ public class RegisterFragment extends DialogFragment implements View.OnClickList
                 String nickName = et_nickName.getText().toString();
                 String age = et_age.getText().toString();
                 String name = et_name.getText().toString();
-                String sex = et_sex.getText().toString();
 
                 mUser = new User();
                 mUser.setUser_email(email);

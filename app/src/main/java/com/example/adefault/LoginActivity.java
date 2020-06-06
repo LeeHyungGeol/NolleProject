@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -50,6 +51,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         AppManager.getInstance().setContext(this); //singleTon pattern
         AppManager.getInstance().setResources(getResources());
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);  //타이틀바 없애기
         setContentView(R.layout.activity_login);
 
         initView();
