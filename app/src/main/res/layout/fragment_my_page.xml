@@ -279,19 +279,23 @@
             android:textColor="#000000" />
     </LinearLayout>
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:scrollbars="none">
 
         <LinearLayout
-            android:id="@+id/myPageGallery"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" />
-    </HorizontalScrollView>
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/myPageLikeRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/mypage_liked_gallery_item">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"

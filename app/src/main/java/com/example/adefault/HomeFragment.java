@@ -68,7 +68,6 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
 
     private HomeResponseDTO mHomeResponseDTO;
     private UserHomeRepository mUserHomeRepository;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     private ConfirmDialog mConfirmDialog;
 
     private TagContainerLayout mTagContainerLayout;

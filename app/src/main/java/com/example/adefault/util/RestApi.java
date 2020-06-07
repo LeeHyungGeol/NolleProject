@@ -35,7 +35,7 @@ import retrofit2.http.Path;
 
 public interface RestApi {
 
-    String BASE_URL = "http://8f47d9d27903.ngrok.io/";
+    String BASE_URL = "http://760d31b2f93e.ngrok.io/";
 
     //String BASE_URL = "http://172.30.1.42:8000/";
 

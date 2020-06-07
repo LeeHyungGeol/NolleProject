@@ -15,7 +15,7 @@
         android:layout_height="100dp"
         android:layout_weight="1"
         android:scaleType="fitXY"
-        android:paddingLeft="10dp"
+        android:paddingLeft="5dp"
         />
 
     <TextView

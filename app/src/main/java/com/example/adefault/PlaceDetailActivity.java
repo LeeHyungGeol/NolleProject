@@ -1,6 +1,8 @@
 package com.example.adefault;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Bitmap;
 import android.media.Image;
@@ -19,7 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.adefault.adapter.PlaceDetailReviewAdapter;
 import com.example.adefault.manager.AppManager;
+import com.example.adefault.model.PlaceData;
 import com.example.adefault.model.PlaceDetailDTO;
 import com.example.adefault.model.PlaceDetailResponseDTO;
 import com.example.adefault.model.PlacePickResponseDTO;
@@ -38,20 +42,21 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import co.lujun.androidtagview.TagContainerLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PlaceDetailActivity extends AppCompatActivity {
+public class PlaceDetailActivity extends AppCompatActivity implements PlaceDetailReviewAdapter.PlaceDetailClickListener{
     private RestApiUtil mRestApiUtil;
     private PlacesClient placesClient;
-    private LayoutInflater inflater;
-    private LinearLayout placeGallery;
-    private LinearLayout reviewGallery;
+    private RecyclerView placeDetailReviewRecylcer;
     private String placeId;
     private TextView placeTextView;
+    private LayoutInflater inflater;
+    private LinearLayout placeGallery;
     private TextView placeAddr;
     private Spinner openHour;
     private RatingBar ratingBar;
@@ -63,11 +68,12 @@ public class PlaceDetailActivity extends AppCompatActivity {
     private final String TAG = "PlaceDetailActivity";
     private List<String> tags;
     private ImageView pickBtn;
+    private ArrayList<PlaceData> dataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UserToken.setToken("fb51dd8d1a49a13b47bd50b8bc251ddf68d92978ff2466bd212699b59cf54d1a");
+        UserToken.setToken("8080461c4bda7c4894e1527f55cec9e2f7c15082d911f4e88988dda82ac436a4");
         setActionBar();
         setContentView(R.layout.activity_place_detail);
         init();
@@ -92,7 +98,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
         placesClient = Places.createClient(this);
         placeGallery = findViewById(R.id.place_gallery);
         inflater=LayoutInflater.from(this); //동적 이미지 스크롤을 위한 inflater
-        reviewGallery = findViewById(R.id.review_gallery);
         openHour = findViewById(R.id.placeOpenHour);
         phoneNumberTextView = findViewById(R.id.placePhoneNumber);
         webSiteTextView = findViewById(R.id.placeSite);
@@ -100,11 +105,17 @@ public class PlaceDetailActivity extends AppCompatActivity {
         placeAddr = findViewById(R.id.placeAddrTextView);
         mRestApiUtil = new RestApiUtil();
         ratingTextView = findViewById(R.id.ratingText);
+        dataList = new ArrayList<>();
         ratingBar = findViewById(R.id.ratingBar);
         tags = new ArrayList<>();
         pickBtn= findViewById(R.id.pickButton);
         // Define a Place ID.
         placeId = "ChIJoXhD_eikfDURHVmg2okUC_w";
+
+        placeDetailReviewRecylcer = findViewById(R.id.placeDetailReviewRecylcer);
+        LinearLayoutManager placeDetailLayoutManager = new LinearLayoutManager(AppManager.getInstance().getContext());
+        placeDetailLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        placeDetailReviewRecylcer.setLayoutManager(placeDetailLayoutManager);
     }
 
     private void addListener() {
@@ -374,24 +385,20 @@ public class PlaceDetailActivity extends AppCompatActivity {
             public void onResponse(Call<PlaceDetailResponseDTO> call, Response<PlaceDetailResponseDTO> response) {
                 if(response.isSuccessful()){
                     Log.d(TAG,"통신 성공");
+
                     PlaceDetailResponseDTO placeDetailResponseDTO = response.body();
-                    for(int i=0 ;i<placeDetailResponseDTO.getPlace_data().size();i++){
-                        Log.d("123",placeDetailResponseDTO.getPlace_data().get(i).getContext());
-                        View view = inflater.inflate(R.layout.user_place_review_item,reviewGallery,false);
-                        ImageView itemView = view.findViewById(R.id.reviewPictureImageView);
-                        Glide.with(PlaceDetailActivity.this)
-                                .load(UserToken.getUrl()+placeDetailResponseDTO.getPlace_data().get(i).getImg_url_1())
-                                .into(itemView);
-                        TextView nickName = view.findViewById(R.id.reviewIdTextView);
-                        TextView content = view.findViewById(R.id.reviewContentTextView);
-                        nickName.setText(placeDetailResponseDTO.getPlace_data().get(i).getNickname());
-                        content.setText(placeDetailResponseDTO.getPlace_data().get(i).getContext());
-                        ratingTextView.setText(Double.toString(placeDetailResponseDTO.getRating()));
-                        ratingBar.setRating((float) placeDetailResponseDTO.getRating());
-                        reviewGallery.addView(view);
+                    ratingTextView.setText(Double.toString(placeDetailResponseDTO.getRating())); //평점 추가가
+                    ratingBar.setRating((float) placeDetailResponseDTO.getRating());
+                    for(int i=0;i<placeDetailResponseDTO.getPlace_data().size();i++){
+                        dataList.add(placeDetailResponseDTO.getPlace_data().get(i));
                     }
 
-                    for(int i=placeDetailResponseDTO.getPlace_data().size()-1;i>=0;i--){
+                    PlaceDetailReviewAdapter placeDetailReviewAdapter = new PlaceDetailReviewAdapter(dataList);
+                    placeDetailReviewRecylcer.setAdapter(placeDetailReviewAdapter);
+                    placeDetailReviewAdapter.setOnClickListener(PlaceDetailActivity.this);
+
+
+                    for(int i=placeDetailResponseDTO.getPlace_data().size()-1;i>=0;i--){ //태그추가
                         try{
                             if(!placeDetailResponseDTO.getPlace_data().get(i).getTag_1().equals("")){
                                 tags.add(placeDetailResponseDTO.getPlace_data().get(i).getTag_1());
@@ -430,6 +437,8 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 Log.d(TAG,"통신 실패");
             }
         });
+
+
     }
 
     public void setPickBtn(){
@@ -460,5 +469,22 @@ public class PlaceDetailActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onPlaceDetailReviewItemClicked(int position){
+        Toast.makeText(getApplicationContext(), "item" + dataList.get(position).getNickname(), Toast.LENGTH_SHORT).show();
+    };
+    @Override
+    public void onPlaceDetailReviewImageClicked(int position){
+        Toast.makeText(getApplicationContext(), "image" + dataList.get(position).getNickname(), Toast.LENGTH_SHORT).show();
+    };
+    @Override
+    public void onPlaceDetailReviewNickNameClicked(int position){
+        Toast.makeText(getApplicationContext(), "name" + position, Toast.LENGTH_SHORT).show();
+    };
+    @Override
+    public void onPlaceDetailReviewContentClicked(int position){
+        Toast.makeText(getApplicationContext(), "content" + position, Toast.LENGTH_SHORT).show();
+    };
 
 }
