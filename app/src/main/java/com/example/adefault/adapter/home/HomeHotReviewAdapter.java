@@ -25,7 +25,6 @@ public class HomeHotReviewAdapter extends RecyclerView.Adapter<HomeHotReviewAdap
         void onHotReviewUserImageClicked(int position);
         void onHotReviewUserNameClicked(int position);
         void onHotReviewPlaceImageClicked(int position);
-        void onHotReviewPlaceNameClicked(int position);
     }
 
     private HomeMyPickClickListener mListener;
@@ -52,9 +51,6 @@ public class HomeHotReviewAdapter extends RecyclerView.Adapter<HomeHotReviewAdap
         holder.userName.setText(item.getHomeHotUserName());
         ImageManager.getInstance().GlideWithView(holder.itemView, holder.userImage, item.getHomeHotUserImg_url());
         ImageManager.getInstance().GlideWithView(holder.itemView, holder.placeImage, item.getHomeHotPlaceImg_url());
-        holder.placeName.setText(item.getHomeHotPlaceName());
-        holder.ratingBar.setRating(item.getHomeHotRating());
-
 
         if(mListener != null) {
             final int pos = position;
@@ -82,12 +78,6 @@ public class HomeHotReviewAdapter extends RecyclerView.Adapter<HomeHotReviewAdap
                     mListener.onHotReviewPlaceImageClicked(pos);
                 }
             });
-            holder.placeName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mListener.onHotReviewPlaceNameClicked(pos);
-                }
-            });
         }
     }
 
@@ -100,17 +90,13 @@ public class HomeHotReviewAdapter extends RecyclerView.Adapter<HomeHotReviewAdap
 
         TextView userName;
         ImageView userImage;
-        TextView placeName;
         ImageView placeImage;
-        RatingBar ratingBar;
 
         public HomeMyPickViewHolder(@NonNull View itemView) {
             super(itemView);
             userImage = itemView.findViewById(R.id.imageView_homeFragment_hot_review_user_image);
             userName = itemView.findViewById(R.id.textView_homeFragment_hot_review_user_name);
             placeImage = itemView.findViewById(R.id.imageView_homeFragment_hot_review_placeImage);
-            placeName = itemView.findViewById(R.id.textView_homeFragment_hot_review_place_name);
-            ratingBar = itemView.findViewById(R.id.ratingBar_homeFragment_hot_review);
         }
     }
 

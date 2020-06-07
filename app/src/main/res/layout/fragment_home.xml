@@ -14,69 +14,73 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <co.lujun.androidtagview.TagContainerLayout
-            android:id="@+id/tagContainerLayout_homeFragment"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            app:container_background_color="@android:color/transparent"
-            app:container_border_color="@android:color/transparent"
-            app:container_enable_drag="true"
-            app:container_gravity="left"
-            app:horizontal_interval="5dp"
-            app:tag_background_color="#D3D1CF"
-            app:tag_border_color="@android:color/transparent"
-            app:tag_clickable="true"
-            app:tag_text_color="@android:color/black"
-            app:tag_text_size="15dp"
-            app:tag_theme="none"
-            app:vertical_interval="5dp" />
+            android:layout_height="33dp"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
 
-    </LinearLayout>
+            <co.lujun.androidtagview.TagContainerLayout
+                android:id="@+id/tagContainerLayout_homeFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                app:container_background_color="@android:color/transparent"
+                app:container_border_color="@android:color/transparent"
+                app:container_enable_drag="true"
+                app:container_gravity="left"
+                app:horizontal_interval="5dp"
+                app:tag_background_color="#D3D1CF"
+                app:tag_border_color="@android:color/transparent"
+                app:tag_clickable="true"
+                app:tag_text_color="@android:color/black"
+                app:tag_text_size="12sp"
+                app:tag_theme="none"
+                app:vertical_interval="5dp" />
+
+        </LinearLayout>
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="5dp">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_homeFragment_anotherUserImage"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="4dp"
-            android:paddingLeft="5dp"
-            app:civ_border_width="1dp"
-            app:civ_border_color="#000000"
-            android:src="@mipmap/ic_launcher"/>
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="5dp"
+            android:src="@mipmap/ic_launcher" />
 
-            <TextView
-                android:id="@+id/tv_homeFragment_anotherUserName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="홍길동"
-                android:textColor="#FFC107"
-                android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tv_homeFragment_anotherUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="홍길동"
+            android:textColor="#FFC107"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textView_homeFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="님이 추천한 장소"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+        <TextView
+            android:id="@+id/textView_homeFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="3dp"
+            android:text="님이 추천한 장소"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
@@ -110,14 +114,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="5dp">
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
 
             <ImageView
                 android:id="@+id/iv_home_hot_review_star"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="10dp"
-                android:paddingLeft="5dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
                 android:src="@drawable/home_hot_review_star" />
 
             <TextView
@@ -127,23 +132,25 @@
                 android:layout_gravity="center_vertical"
                 android:text="핫한"
                 android:textColor="#CCF44336"
-                android:textSize="18sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView_homeFragment3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
                 android:text="리뷰"
                 android:textColor="#000000"
-                android:textSize="18sp"
-                android:paddingLeft="6dp"/>
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:padding="10dp"
+            android:layout_height="170dp"
+            android:padding="5dp"
             android:orientation="horizontal">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -160,14 +167,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="5dp">
+            android:paddingTop="5dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp">
 
             <ImageView
                 android:id="@+id/iv_nolleStar"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="10dp"
-                android:paddingLeft="5dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
                 android:src="@drawable/nolle_starr" />
 
             <TextView
@@ -177,17 +185,19 @@
                 android:layout_gravity="center_vertical"
                 android:text="실시간"
                 android:textColor="#FFC107"
-                android:textSize="18sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_homeFragment5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
                 android:text="리뷰"
                 android:textColor="#000000"
-                android:textSize="18sp"
-                android:paddingLeft="6dp"/>
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout

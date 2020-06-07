@@ -22,8 +22,6 @@ public class HomeRealTimeAdapter extends RecyclerView.Adapter<HomeRealTimeAdapte
 
     public interface HomeRealTimeClickListener {
         void onRealTimeItemClicked(int position);
-        void onRealTimeUserImageClicked(int position);
-        void onRealTimeUserNameClicked(int position);
         void onRealTimePlaceNameClicked(int position);
         void onRealTimePlaceImageClicked(int position);
     }
@@ -49,8 +47,6 @@ public class HomeRealTimeAdapter extends RecyclerView.Adapter<HomeRealTimeAdapte
     @Override
     public void onBindViewHolder(@NonNull HomeRealTimeViewHolder holder, int position) {
         HomeRealTimeItem item = mDataList.get(position);
-        holder.userName.setText(item.getHomeRealUserName());
-        ImageManager.getInstance().GlideWithView(holder.itemView, holder.userImage, item.getHomeRealUserImg_url());
         holder.placeName.setText(item.getHomeRealPlaceName());
         holder.placeReview.setText(item.getHomeRealPlaceReview());
         holder.ratingBar.setRating(item.getHomeRealRating());
@@ -62,18 +58,6 @@ public class HomeRealTimeAdapter extends RecyclerView.Adapter<HomeRealTimeAdapte
                 @Override
                 public void onClick(View v) {
                     mListener.onRealTimeItemClicked(pos); // pos = holder.getAdapterPosition()
-                }
-            });
-            holder.userImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mListener.onRealTimeUserImageClicked(pos);
-                }
-            });
-            holder.userName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mListener.onRealTimeUserNameClicked(pos);
                 }
             });
             holder.placeImage.setOnClickListener(new View.OnClickListener() {
@@ -97,16 +81,12 @@ public class HomeRealTimeAdapter extends RecyclerView.Adapter<HomeRealTimeAdapte
     }
 
     public static class HomeRealTimeViewHolder extends RecyclerView.ViewHolder {
-        TextView userName;
-        ImageView userImage;
         TextView placeName;
         TextView placeReview;
         ImageView placeImage;
         RatingBar ratingBar;
         public HomeRealTimeViewHolder(@NonNull View itemView) {
             super(itemView);
-            userName = itemView.findViewById(R.id.textView_homeFragment_real_time_review_user_name);
-            userImage = itemView.findViewById(R.id.imageView_homeFragment_real_time_review_user_image);
             placeName = itemView.findViewById(R.id.textView_homeFragment_real_time_review_place_name);
             placeReview = itemView.findViewById(R.id.textView_homeFragment_real_time_review_content);
             placeImage = itemView.findViewById(R.id.imageView_homeFragment_real_time_review_place_image);

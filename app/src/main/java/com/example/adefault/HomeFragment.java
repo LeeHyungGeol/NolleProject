@@ -288,22 +288,6 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
     }
 
     @Override
-    public void onRealTimeUserImageClicked(int position) { //실시간 리뷰의 유저 프로필 이미지를 클릭할 경우 //다른 사용자의 프로필로 이동 구현할 것
-        Toast.makeText(AppManager.getInstance().getContext(), "RealTimeUserImage" + position, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(AppManager.getInstance().getContext(), OtherUserPageActivity.class);
-        intent.putExtra("user_nickname", realTime.get(position).getNickname());
-        startActivity(intent);
-    }
-
-    @Override
-    public void onRealTimeUserNameClicked(int position) { //실시간 리뷰의 유저 이름을 클릭할 경우 //다른 사용자의 프로필로 이동 구현할 것
-        Toast.makeText(AppManager.getInstance().getContext(), "RealTimeUserName" + position, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(AppManager.getInstance().getContext(), OtherUserPageActivity.class);
-        intent.putExtra("user_nickname", realTime.get(position).getNickname());
-        startActivity(intent);
-    }
-
-    @Override
     public void onRealTimePlaceNameClicked(int position) { //실시간 리뷰의 장소 이름을 클릭할 경우 //해당 리뷰에 대한 게시글 화면으로 이동
         Toast.makeText(AppManager.getInstance().getContext(), "RealTimePlaceName" + position, Toast.LENGTH_SHORT).show();
     }
@@ -338,10 +322,5 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
     @Override
     public void onHotReviewPlaceImageClicked(int position) { //핫 리뷰의 장소 이미지를 클릭할 경우 //해당 리뷰에 대한 게시글 화면으로 이동
         Toast.makeText(AppManager.getInstance().getContext(), "HotReviewPlaceImage" + position, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onHotReviewPlaceNameClicked(int position) { //핫 리뷰의 장소 이름을 클릭할 경우 //해당 리뷰에 대한 게시글 화면으로 이동
-        Toast.makeText(AppManager.getInstance().getContext(), "HotReviewPlaceName" + position, Toast.LENGTH_SHORT).show();
     }
 }
