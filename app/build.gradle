@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+android.defaultConfig.vectorDrawables.useSupportLibrary = true
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -31,6 +31,7 @@ android {
 allprojects { //추가
     repositories {
         maven { url "https://jitpack.io" }
+        google()
     }
 }
 
@@ -51,6 +52,7 @@ dependencies {
     //refrofit 통신
     implementation 'com.squareup.retrofit2:retrofit:2.8.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
+
 
     //image picker
     implementation 'com.github.esafirm.android-image-picker:imagepicker:1.13.1'  // for experimental rx picker
@@ -82,5 +84,13 @@ dependencies {
 
     //circleImageView
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    //태그 라이브러리
+    implementation 'co.lujun:androidtagview:1.1.7'
+    implementation 'androidx.appcompat:appcompat:1.0.1'
+
+    //이미지 원형 변형 라이브러리
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
 
 }

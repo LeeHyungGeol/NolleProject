@@ -9,6 +9,16 @@ public class BoardDTO {
     private ArrayList<Uri> images;
     private String rating;
     private String context;
+    private String place_name;
+
+    public String getPlace_name() {
+        return place_name;
+    }
+
+    public void setPlace_name(String place_name) {
+        this.place_name = place_name;
+    }
+
     private ArrayList<String> tag;
 
     public String getPlace_id() {

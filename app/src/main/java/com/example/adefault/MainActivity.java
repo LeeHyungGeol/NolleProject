@@ -34,34 +34,28 @@ public class MainActivity extends AppCompatActivity {
         setActionBar();
 
         bottomNavigationView = findViewById(R.id.bottomNavi);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
-        {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId())
             {
-                switch (menuItem.getItemId())
-                {
-                    case R.id.action_home:
-                        setFrag(0);
-                        break;
-                    case R.id.action_menu:
-                        setFrag(1);
-                        break;
-                    case R.id.action_add:
-                        setFrag(2);
-                        break;
-                    case R.id.action_search:
-                        setFrag(3);
-                        break;
-                    case R.id.action_person:
-                        setFrag(4);
-                        break;
+                case R.id.action_home:
+                    setFrag(0);
+                    break;
+                case R.id.action_menu:
+                    setFrag(1);
+                    break;
+                case R.id.action_add:
+                    setFrag(2);
+                    break;
+                case R.id.action_search:
+                    setFrag(3);
+                    break;
+                case R.id.action_person:
+                    setFrag(4);
+                    break;
 
 
-                }
-                return true;
             }
+            return true;
         });
 
         homefragment = new HomeFragment();

@@ -1,6 +1,7 @@
 package com.example.adefault;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -78,6 +79,8 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
     private HomeSliderAdapter adapter;
     private RecyclerView mHotReviewRecyclerView;
     private RecyclerView mRealTimeRecyclerView;
+    private ArrayList<RealTime> realTime;
+    private ArrayList<HotReview> hotReview;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -201,7 +204,7 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
 
     public void setHotReview() {
         List<HomeHotReviewItem> dataList = new ArrayList<>();
-        ArrayList<HotReview> hotReview = mHomeResponseDTO.getHot();
+        hotReview = mHomeResponseDTO.getHot();
         for(int i = 0; i < hotReview.size(); i++) {
             dataList.add(new HomeHotReviewItem(hotReview.get(i).getNickname(), ImageManager.getInstance().getFullImageString(hotReview.get(i).getImage()), hotReview.get(i).getPlace_name()
                     , hotReview.get(i).getRating(), ImageManager.getInstance().getFullImageString(hotReview.get(i).getImg_url_1())));
@@ -215,7 +218,7 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
 
     public void setRealTimeReview() {
         List<HomeRealTimeItem> dataList = new ArrayList<>();
-        ArrayList<RealTime> realTime = mHomeResponseDTO.getReal_time();
+        realTime = mHomeResponseDTO.getReal_time();
 
         for(int i = 0; i < realTime.size(); i++) {  //name, review, rating, url
             dataList.add(new HomeRealTimeItem(realTime.get(i).getPlace_name(), realTime.get(i).getContext(), realTime.get(i).getRating()
@@ -287,11 +290,17 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
     @Override
     public void onRealTimeUserImageClicked(int position) { //실시간 리뷰의 유저 프로필 이미지를 클릭할 경우 //다른 사용자의 프로필로 이동 구현할 것
         Toast.makeText(AppManager.getInstance().getContext(), "RealTimeUserImage" + position, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(AppManager.getInstance().getContext(), OtherUserPageActivity.class);
+        intent.putExtra("user_nickname", realTime.get(position).getNickname());
+        startActivity(intent);
     }
 
     @Override
     public void onRealTimeUserNameClicked(int position) { //실시간 리뷰의 유저 이름을 클릭할 경우 //다른 사용자의 프로필로 이동 구현할 것
         Toast.makeText(AppManager.getInstance().getContext(), "RealTimeUserName" + position, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(AppManager.getInstance().getContext(), OtherUserPageActivity.class);
+        intent.putExtra("user_nickname", realTime.get(position).getNickname());
+        startActivity(intent);
     }
 
     @Override
@@ -311,13 +320,19 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
     }
 
     @Override
-    public void onHotReviewUserImageClicked(int position) { //핫 리뷰의 사용자 이미지를 클릭할 경우 //다른 사용자의 프로필로 이동 구현할 것
+    public void onHotReviewUserImageClicked(int position) { //핫 리뷰의 사용자 이미지를 클릭할 경우 //다른 사용자의 페이지로 이동 구현할 것
         Toast.makeText(AppManager.getInstance().getContext(), "HotReviewUserImage" + position, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(AppManager.getInstance().getContext(), OtherUserPageActivity.class);
+        intent.putExtra("user_nickname", hotReview.get(position).getNickname());
+        startActivity(intent);
     }
 
     @Override
-    public void onHotReviewUserNameClicked(int position) { //핫 리뷰의 사용자 이름을 클릭할 경우 //다른 사용자의 프로필로 이동 구현할 것
+    public void onHotReviewUserNameClicked(int position) { //핫 리뷰의 사용자 이름을 클릭할 경우 //다른 사용자의 페이지로 이동 구현할 것
         Toast.makeText(AppManager.getInstance().getContext(), "HotReviewUserName" + position, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(AppManager.getInstance().getContext(), OtherUserPageActivity.class);
+        intent.putExtra("user_nickname", hotReview.get(position).getNickname());
+        startActivity(intent);
     }
 
     @Override

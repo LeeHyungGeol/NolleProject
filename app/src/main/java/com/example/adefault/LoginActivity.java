@@ -24,6 +24,7 @@ import com.example.adefault.manager.ImageManager;
 import com.example.adefault.model.LoginDTO;
 import com.example.adefault.model.LoginResponseDTO;
 import com.example.adefault.model.User;
+import com.example.adefault.util.UserToken;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -109,6 +110,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if(response.isSuccessful()) {
                         progressOFF();
                         LoginResponseDTO loginResponseDTO = response.body();
+                        UserToken.setToken(loginResponseDTO.getToken()); //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@우진 추가
+                        Log.d("토큰",loginResponseDTO.getToken());
                         setUser(loginResponseDTO.getUser().getIdx(), loginResponseDTO.getUser().getUser_email(), loginResponseDTO.getUser().getUser_nm()
                                 ,loginResponseDTO.getUser().getNickname(), loginResponseDTO.getUser().getPassword(), loginResponseDTO.getUser().getAge()
                                 ,loginResponseDTO.getUser().getSex(), loginResponseDTO.getToken());

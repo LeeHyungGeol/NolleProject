@@ -1,6 +1,5 @@
 package com.example.adefault;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,8 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,20 +28,25 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
-import com.example.adefault.adapter.PlaceAutoSuggestAdapter;
-import com.example.adefault.manager.AppManager;
-import com.example.adefault.manager.ImageManager;
 import com.example.adefault.model.BoardDTO;
 import com.example.adefault.model.BoardResponseDTO;
 import com.example.adefault.util.RestApi;
 import com.example.adefault.util.RestApiUtil;
+import com.example.adefault.util.UserToken;
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import co.lujun.androidtagview.TagContainerLayout;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -55,8 +57,6 @@ import retrofit2.Retrofit;
 
 public class AddBoardActivity extends FragmentActivity {
 
-    private ConfirmDialog confirmDialog;
-    private AutoCompleteTextView autoCompleteTextView;
     private BoardDTO boardDTO; ////게시판 내용이 들어가있는 객체
     private ImageView imageView;
     private ImagePicker imagePicker;
@@ -74,14 +74,17 @@ public class AddBoardActivity extends FragmentActivity {
     private ArrayList<Uri> fileUris;
     private ArrayList<String> tagList;
     private ArrayList<File> files;
+    private AutocompleteSupportFragment autocompleteFragment;
+    private String place_id;
+    private String TAG="AddBoardActivity";
+    private TagContainerLayout reviewTagContainerLayout;
+    private Button tagAddBtn;
+    private String placeName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        AppManager.getInstance().setContext(this);
-        AppManager.getInstance().setResources(getResources());
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);  //타이틀바 없애기
         setContentView(R.layout.activity_add_board);
         init();
@@ -110,16 +113,14 @@ public class AddBoardActivity extends FragmentActivity {
 
 
     private void init(){
-        confirmDialog = new ConfirmDialog(AppManager.getInstance().getContext());
+        Places.initialize(this,getString(R.string.places_api_key));
         boardDTO = new BoardDTO();
-        autoCompleteTextView = findViewById(R.id.autocomplete);
-        autoCompleteTextView.setAdapter(new PlaceAutoSuggestAdapter(AddBoardActivity.this,R.layout.search_place_list_layout));
         imageView= findViewById(R.id.imageView);
         imagePicker = ImagePicker.create(this)
                 .limit(5);
         gallery = findViewById(R.id.gallery);
         inflater=LayoutInflater.from(this); //동적 이미지 스크롤을 위한 inflater
-        ratingBar = findViewById(R.id.ratingBar);
+        ratingBar = findViewById(R.id.reviewRatingBar);
         placeReviewText = findViewById(R.id.placeReviewText);
         placeReviewLimit=findViewById(R.id.placeReviewLimit);
         boardBtn=findViewById(R.id.boardBtn);
@@ -130,6 +131,15 @@ public class AddBoardActivity extends FragmentActivity {
         fileUris = new ArrayList<Uri>();
         tagList = new ArrayList<String>();
         files = new ArrayList<File>();
+        // Initialize the AutocompleteSupportFragment.
+        autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+// Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+        autocompleteFragment.setCountry("kr");
+        autocompleteFragment.setHint("장소를 입력해주세요");
+        reviewTagContainerLayout = findViewById(R.id.reviewTagContainerLayout);
+        tagAddBtn = findViewById(R.id.tagAddBtn);
     }
 
 
@@ -144,33 +154,28 @@ public class AddBoardActivity extends FragmentActivity {
             Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             itemView.setImageBitmap(bitmap);
             gallery.addView(view); //이미지 레이아웃에 동적 추가
-//            ClipData.Item clipItem = clipData.getItemAt(i);
-//            Uri uri = clipItem.getUri();
-//            fileUris.add(uri);
         }
 
     }
 
     private void addListener(){
 
-        autoCompleteTextView.setOnClickListener(new View.OnClickListener(){ //검색 장소 리스너 구현
-
+        tagAddBtn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                autoCompleteTextView.getText().clear();
-                autoCompleteTextView.setFocusableInTouchMode(true);
-                autoCompleteTextView.setFocusable(true);
-            }
-        });
 
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //검색 장소 리스너 구현
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                autoCompleteTextView.setFocusable(false);
-                autoCompleteTextView.setClickable(false);
+                if(tagList.size()<5){
+                    tagList.add(hashTagText.getText().toString());
+                    hashTagText.setText("");
+                    reviewTagContainerLayout.setTags(tagList);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"태그는 최대 5개 까지 등록할 수 있습니다",Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
+
 
         imageView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -203,99 +208,68 @@ public class AddBoardActivity extends FragmentActivity {
 
             @Override
             public void onClick(View v) {
-                tagDivide();
                 setBoard();
-                upLoad();
+                if(!boardDTO.getContext().equals("") && !boardDTO.getPlace_name().equals("")&&!boardDTO.getRating().equals("0.0") && files.get(0).exists()){
+                    Log.d("rating",boardDTO.getRating());
+                    upLoad();
+                }
+                else{
+                    Toast.makeText(AddBoardActivity.this, "내용이나 사진을 입력해주세요", Toast.LENGTH_SHORT).show();
+                }
 //                Intent intent = new Intent(AddBoardActivity.this, MainActivity.class);
 //                startActivity(intent);
             }
         });
 
-        hashTagText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+
+// Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected place.
+                place_id = place.getId();
+                placeName = place.getName();
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String startChar = null;
-
-                try{
-                    startChar = Character.toString(s.charAt(start));
-                    Log.i(getClass().getSimpleName(), "CHARACTER OF NEW WORD: " + startChar);
-                }
-                catch(Exception ex){
-                    startChar = "";
-                }
-
-                if (startChar.equals("#")) {
-                    changeTheColor(s.toString().substring(start), start, start + count);
-                    hashTagIsComing++;
-                }
-
-                if(startChar.equals(" ")){
-                    hashTagIsComing = 0;
-                }
-
-                if(hashTagIsComing != 0) {
-                    changeTheColor(s.toString().substring(start), start, start + count);
-                    hashTagIsComing++;
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+            public void onError(Status status) {
+                // TODO: Handle the error.
             }
         });
     }
 
-    private void changeTheColor(String s, int start, int end) {
-        mspanable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.quantum_purple)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-    }
-
     private void setBoard(){
-        boardDTO.setPlace_id(autoCompleteTextView.getText().toString());
+        boardDTO.setPlace_id(place_id);
         boardDTO.setImages(fileUris);
         boardDTO.setRating(Float.toString(ratingBar.getRating()));
         boardDTO.setContext(placeReviewText.getText().toString());
         boardDTO.setTag(tagList);
-
+        boardDTO.setPlace_name(placeName);
     }
-
-    private void tagDivide(){
-        String tagContext = hashTagText.getText().toString();
-        String[] tags = tagContext.split("#");
-        Log.d("String",tagContext);
-
-        for(int i=1;i<tags.length;i++){
-            tagList.add(tags[i]);
-        }
-    }
-
 
     private void upLoad() { //서버에 게시글 보내기
-
-        progressON("게시글 업로드중...");
-        String token = "Token cb74383e39311b489f5491bf90bdb1893fa17aeb6f6370fc9f982e3a2d6dff86";
+        String token = "Token "+ UserToken.getToken();
         Retrofit mRetrofit = RestApiUtil.getRetrofitClient(this);
         RestApi restApi = mRetrofit.create(RestApi.class);
 
         Map<String, RequestBody> boardMaps = new HashMap<>();
-        ArrayList<RequestBody> RequestBodyTags = new ArrayList<>();
-        ArrayList<RequestBody> RequestBodyImages = new ArrayList<>();
 
         RequestBody requestPlaceID = RequestBody.create(MediaType.parse("text/plain"), boardDTO.getPlace_id());
         RequestBody requestRating = RequestBody.create(MediaType.parse("text/plain"), boardDTO.getRating());
         RequestBody requestContext = RequestBody.create(MediaType.parse("text/plain"), boardDTO.getContext());
+        RequestBody requestPlaceName = RequestBody.create(MediaType.parse("text/plain"), boardDTO.getPlace_name());
 
-        //입력 데이터:  place_id, rating, context, img_url_1 ~ img_url_5, tag_1 ~ tag_5
+
 
         boardMaps.put("place_id", requestPlaceID);
         boardMaps.put("rating", requestRating);
         boardMaps.put("context", requestContext);
+        boardMaps.put("place_name",requestPlaceName);
+
+        ArrayList<RequestBody> RequestBodyTags = new ArrayList<>();
+        ArrayList<RequestBody> RequestBodyImages = new ArrayList<>();
+
 
         for (int i = 0; i < tagList.size(); i++) {
             RequestBodyTags.add(RequestBody.create(MediaType.parse("text/plain"), boardDTO.getTag().get(i)));
@@ -307,27 +281,26 @@ public class AddBoardActivity extends FragmentActivity {
             boardMaps.put( "img_" + (i+1) + "\"; filename=\"" + files.get(i).getName() , RequestBodyImages.get(i));
         }
 
-        System.out.println("게시글 업로드 시작");
+
 
         Call<BoardResponseDTO> call = restApi.uploadBoard(token, boardMaps);
-
         call.enqueue(new Callback<BoardResponseDTO>() {
             @Override
             public void onResponse(Call<BoardResponseDTO> call, Response<BoardResponseDTO> response) {
+                BoardResponseDTO boardResponseDTO = response.body();
                 if(response.isSuccessful()) {
-                    progressOFF();
-                    System.out.println(response.isSuccessful());
-                    BoardResponseDTO boardResponseDTO = response.body();
-                    System.out.println(boardResponseDTO.getCheck());
-                    System.out.println("게시글 업로드 완료!!");
-                    confirmDialog.setMessage("게시글 업로드 완료!!");
-                    setResult(Activity.RESULT_OK);
-                    finish();
+                    if(boardResponseDTO.getCheck().equals("True"))
+                    {
+                        Toast.makeText(AddBoardActivity.this, "게시글 업로드 성공", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                    else{
+                        Log.d("게시글","실패");
+
+                    }
                 }
-                else {
-                    progressOFF();
-                    confirmDialog.setMessage("게시글 업로드 실패");
-                    confirmDialog.show();
+                else{
+                    Log.d("resopnse","실패");
                 }
             }
 
@@ -335,19 +308,10 @@ public class AddBoardActivity extends FragmentActivity {
             public void onFailure(Call<BoardResponseDTO> call, Throwable t) {
                 System.out.println(t.getMessage());
                 System.out.println("게시글 업로드 실패");
-                confirmDialog.setMessage("게시글 업로드 실패");
-                confirmDialog.show();
+                Toast.makeText(AddBoardActivity.this, "게시글 업로드 실패", Toast.LENGTH_LONG).show();
             }
         });
 
-    }
-
-    public void progressON(String message) {
-        ImageManager.getInstance().progressON((Activity)AppManager.getInstance().getContext(), message);
-    }
-
-    public void progressOFF() {
-        ImageManager.getInstance().progressOFF();
     }
 
 
