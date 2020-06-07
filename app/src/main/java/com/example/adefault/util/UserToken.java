@@ -3,7 +3,7 @@ package com.example.adefault.util;
 public class UserToken {
 
     private static String token = "";
-    private static String url = "http://760d31b2f93e.ngrok.io";
+    private static String url = "http://9941c96d004e.ngrok.io";
 
     public static String getUrl() {
         return url;

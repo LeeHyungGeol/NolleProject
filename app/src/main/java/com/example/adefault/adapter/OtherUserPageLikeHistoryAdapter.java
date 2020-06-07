@@ -1,6 +1,5 @@
 package com.example.adefault.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,38 +15,37 @@ import com.example.adefault.manager.ImageManager;
 import com.example.adefault.model.LikeHistory;
 
 import java.util.List;
-import java.util.Random;
 
-public class MyPageLikeHistoryAdapter extends RecyclerView.Adapter<MyPageLikeHistoryAdapter.MyPageLikeViewHolder> {
+public class OtherUserPageLikeHistoryAdapter extends RecyclerView.Adapter<OtherUserPageLikeHistoryAdapter.OtherUserPageLikeViewHolder>{
     private final List<LikeHistory> mDataList;
 
-    public interface MyPageLikeClickListener {
+    public interface OtherUserPageLikeClickListener {
         void onMyPageLikeItemClicked(int position);
         void onMyPageLikeImageClicked(int position);
         void onMyPageLikePlaceNameClicked(int position);
     }
 
-    private MyPageLikeClickListener mListener;
+    private OtherUserPageLikeClickListener mListener;
 
 
-    public void setOnClickListener(MyPageLikeClickListener listener) {
+    public void setOnClickListener(OtherUserPageLikeClickListener listener) {
         mListener = listener;
     }
 
-    public MyPageLikeHistoryAdapter(List<LikeHistory> dataList) {
+    public OtherUserPageLikeHistoryAdapter(List<LikeHistory> dataList) {
         mDataList = dataList;
     }
 
     @NonNull
     @Override
-    public MyPageLikeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public OtherUserPageLikeHistoryAdapter.OtherUserPageLikeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.mypage_liked_gallery_item, parent, false);
-        return new MyPageLikeViewHolder(view);
+        return new OtherUserPageLikeViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyPageLikeViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull OtherUserPageLikeHistoryAdapter.OtherUserPageLikeViewHolder holder, int position) {
 
 
         String url = ImageManager.getInstance().getFullImageString(mDataList.get(position).getPosting().getImg_url_1());
@@ -85,13 +83,13 @@ public class MyPageLikeHistoryAdapter extends RecyclerView.Adapter<MyPageLikeHis
         return mDataList.size();
     };
 
-    public static class MyPageLikeViewHolder extends RecyclerView.ViewHolder {
+    public static class OtherUserPageLikeViewHolder extends RecyclerView.ViewHolder {
 
         ImageView userImage;
         RatingBar ratingBar;
         TextView placeName;
 
-        public MyPageLikeViewHolder(@NonNull View itemView) {
+        public OtherUserPageLikeViewHolder(@NonNull View itemView) {
             super(itemView);
             userImage = itemView.findViewById(R.id.myPageItemView);
             ratingBar = itemView.findViewById(R.id.myPage_liked_ratingstars);

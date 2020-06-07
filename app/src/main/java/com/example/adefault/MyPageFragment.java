@@ -55,8 +55,6 @@ public class MyPageFragment extends Fragment implements MyPageLikeHistoryAdapter
     private TextView myPageNickName;
     private TextView myPageSex;
     private TextView myPageAge;
-    private TextView followMapUserName; //팔로우맵 가운데 자기 이름
-    private CircleImageView followMapMainImage; //팔로우맵 가운데 자기 이미지
     private CircleImageView myPageUserImage;
     private Button profileEditBtn;
     private Button logoutBtn;
@@ -92,9 +90,6 @@ public class MyPageFragment extends Fragment implements MyPageLikeHistoryAdapter
         myPageUserImage = view.findViewById(R.id.myPageUserImage);
         myPagePickTextView = view.findViewById(R.id.myPagePickTextView);
         myPageLikedTextView = view.findViewById(R.id.myPageLikedTextview);
-        followMapTextview = view.findViewById(R.id.followMapTextview);
-        followMapUserName = view.findViewById(R.id.followMapUserName);
-        followMapMainImage= view.findViewById(R.id.followMap_main);
         dataList = new ArrayList<>();
 
         myPageLikeRecyclerView = view.findViewById(R.id.myPageLikeRecyclerView);
@@ -110,9 +105,6 @@ public class MyPageFragment extends Fragment implements MyPageLikeHistoryAdapter
         span2.setSpan(new ForegroundColorSpan(Color.parseColor("#EB6D55")),0,3,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         myPageLikedTextView.setText(span2);
 
-        Spannable span3 = (Spannable)followMapTextview.getText();
-        span3.setSpan(new ForegroundColorSpan(Color.parseColor("#EB6D55")),0,3,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        followMapTextview.setText(span3);
     }
 
     private void addListener() {
@@ -210,7 +202,6 @@ public class MyPageFragment extends Fragment implements MyPageLikeHistoryAdapter
                     myPageBoardCnt.setText(String.valueOf(myPageResponseDTO.getMypage().getPosting_cnt()));
                     myPageFollowerCnt.setText(String.valueOf(myPageResponseDTO.getMypage().getFollower_cnt()));
                     myPageFollwingCnt.setText(String.valueOf(myPageResponseDTO.getMypage().getFollowing_cnt()));
-                    followMapUserName.setText(myPageResponseDTO.getMypage().getUser_nm());
                     myPageSex.setText(myPageResponseDTO.getMypage().getSex());
                     String[] str = myPageResponseDTO.getMypage().getAge().split("-");
                     myPageAge.setText(String.valueOf(2020-Integer.parseInt(str[0]))+"세");
@@ -218,9 +209,6 @@ public class MyPageFragment extends Fragment implements MyPageLikeHistoryAdapter
                         Glide.with(getActivity())
                                 .load(UserToken.getUrl()+myPageResponseDTO.getMypage().getImage())
                                 .into(myPageUserImage);
-                        Glide.with(getActivity())
-                                .load(UserToken.getUrl()+myPageResponseDTO.getMypage().getImage())
-                                .into(followMapMainImage);
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -257,11 +245,16 @@ public class MyPageFragment extends Fragment implements MyPageLikeHistoryAdapter
 
     @Override
     public void onMyPageLikeItemClicked(int position) {
-        Toast.makeText(getContext(), "image" + position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "item" + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onMyPageLikeImageClicked(int position) {
         Toast.makeText(getContext(), "image" + position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMyPageLikePlaceNameClicked(int position) {
+        Toast.makeText(getContext(), "placeName" + position, Toast.LENGTH_SHORT).show();
     }
 }

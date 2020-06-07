@@ -9,6 +9,7 @@ import com.example.adefault.model.MyFollowResponseDTO;
 import com.example.adefault.model.MyPageEditResponseDTO;
 import com.example.adefault.model.MyPageResponseDTO;
 import com.example.adefault.model.MyPostingResponseDTO;
+import com.example.adefault.model.OtherUserFollowResponseDTO;
 import com.example.adefault.model.PlaceDetailDTO;
 import com.example.adefault.model.PlaceDetailResponseDTO;
 import com.example.adefault.model.PlacePickResponseDTO;
@@ -35,7 +36,7 @@ import retrofit2.http.Path;
 
 public interface RestApi {
 
-    String BASE_URL = "http://760d31b2f93e.ngrok.io/";
+    String BASE_URL = "http://9941c96d004e.ngrok.io/";
 
     //String BASE_URL = "http://172.30.1.42:8000/";
 
@@ -78,10 +79,13 @@ public interface RestApi {
     @GET("mypageApp/userpage/{user_id}/")
     Call<UserPageResponseDTO> user_page(@Header("Authorization") String token, @Path("user_id")String id);
 
-    @GET("mypageApp/userfollow/{user_nickname}") //다른 사용자 팔로우 팔로워 리스트 출력
+    @GET("mypageApp/userfollow/{user_nickname}/") //다른 사용자 팔로우 팔로워 리스트 출력
     Call<UserFollowResponseDTO> user_follow(@Header("Authorization") String token, @Path("user_nickname")String nickname);
 
     @GET("mypageApp/myposting/") //자신의 게시글 불러오기
     Call<MyPostingResponseDTO> my_posting(@Header("Authorization") String token);
+
+    @GET("mypageApp/managefollow/{user_nickname}/")
+    Call<OtherUserFollowResponseDTO> follow(@Header("Authorization") String token, @Path("user_nickname")String nickname);
 
 }
