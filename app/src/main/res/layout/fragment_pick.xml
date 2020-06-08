@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_weight="1"
-            app:auto_slide_time="3"
+            app:auto_slide_time="14"
             app:cardSlider_indicator="@id/indicator"
             app:cardSlider_otherPagesWidth="40dp"
             app:cardSlider_pageMargin="12dp"

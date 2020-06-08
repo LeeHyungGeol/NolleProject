@@ -1,5 +1,6 @@
 package com.example.adefault;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -45,6 +46,8 @@ import com.example.adefault.adapter.SearchPopularAdapter;
 import com.example.adefault.adapter.SearchRealtimeAdapter;
 import com.example.adefault.data.FirstRecommendData;
 import com.example.adefault.data.ReviewData;
+import com.example.adefault.manager.AppManager;
+import com.example.adefault.manager.ImageManager;
 import com.example.adefault.util.RetrofitClient;
 import com.example.adefault.util.UserToken;
 import com.google.gson.JsonArray;
@@ -62,16 +65,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class SearchFragment extends Fragment implements OnBackPressedListener {
 
     private final int GET_GALLERY_IMAGE = 200;
     private static final int PICK_IMAGE_ID = 234;
-    public static final int SECOND_PIC_REQ = 1313;
+    private static final int SECOND_PIC_REQ = 1313;
     private static final int PICK_FROM_FILE = 100;
 
 
@@ -200,10 +199,10 @@ public class SearchFragment extends Fragment implements OnBackPressedListener {
                 @Override
                 public boolean onQueryTextSubmit(String s) {
                     // 입력받은 문자열 처리
-                    FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.Main_Frame, SearchResultFragment.newInstance(s,""));
-                    fragmentTransaction.commit();
+                    Intent intent = new Intent(AppManager.getInstance().getContext(), SearchResultActivity.class);
+                    intent.putExtra("searchSentence", s);
+                    intent.putExtra("uri", "");
+                    startActivity(intent);
 
                     return true;
                 }
@@ -262,13 +261,11 @@ public class SearchFragment extends Fragment implements OnBackPressedListener {
     }
 
     public void imagePick(Image image) {
-        imgFile = new File(image.getPath());
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.Main_Frame,SearchResultFragment.newInstance("",image.getPath()));
-        fragmentTransaction.commit();
-        //Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-        //sentence = detection_image();
+        Intent intent = new Intent(AppManager.getInstance().getContext(), SearchResultActivity.class);
+        intent.putExtra("searchSentence", "");
+        intent.putExtra("uri", image.getPath());
+        startActivity(intent);
+
     }
 
 //    public String detection_image(){
@@ -371,15 +368,26 @@ public class SearchFragment extends Fragment implements OnBackPressedListener {
             Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
         }
     };
+
+    private View.OnClickListener onClickItem_feed = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int posting_id = (int)v.getTag();
+            Intent activityIntent = new Intent(AppManager.getInstance().getContext(), FeedDetailActivity.class);
+            activityIntent.putExtra("posting_idx", posting_id);
+            startActivity(activityIntent);
+        }
+    };
+
     private View.OnClickListener onClickItem2 = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Button btn = (Button)v;
             String str = (String) btn.getText();
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.Main_Frame,SearchResultFragment.newInstance(str,""));
-            fragmentTransaction.commit();
+            Intent intent = new Intent(AppManager.getInstance().getContext(), SearchResultActivity.class);
+            intent.putExtra("searchSentence", str);
+            intent.putExtra("uri", "");
+            startActivity(intent);
         }
     };
 
@@ -397,6 +405,19 @@ public class SearchFragment extends Fragment implements OnBackPressedListener {
 
         init();
 
+        getSearchFragmentData();
+        return view;
+    }//onCreateView()
+
+    @Override
+    public void onBackPressed() {
+        Log.d("data", "백키");
+
+
+    }
+
+    public void getSearchFragmentData() {
+        progressON("로딩 중입니다. 잠시만 기다려주세요...");
         Call<Result> call = retrofitClient.apiService.getretrofitdata("Token "+ UserToken.getToken());
         call.enqueue(new Callback<Result>() {
             @Override
@@ -427,15 +448,15 @@ public class SearchFragment extends Fragment implements OnBackPressedListener {
                     for (int i = 0; i < result.getHot_posting().size(); i++) {
                         if (!result.getHot_posting().get(i).get("img_url_1").isJsonNull()) {
                             popular_itemList.add(new ReviewData(result.getHot_posting().get(i).get("img_url_1").getAsString(), result.getHot_posting().get(i).get("place_name").getAsString()
-                                    , (int) (result.getHot_posting().get(i).get("rating").getAsDouble()), result.getHot_posting().get(i).get("context").getAsString()));
+                                    , (int) (result.getHot_posting().get(i).get("rating").getAsDouble()), result.getHot_posting().get(i).get("context").getAsString(),result.getHot_posting().get(i).get("idx").getAsInt()));
                         } else {
                             popular_itemList.add(new ReviewData("none", result.getHot_posting().get(i).get("place_name").getAsString()
-                                    , (int) (result.getHot_posting().get(i).get("rating").getAsDouble()), result.getHot_posting().get(i).get("context").getAsString()));
+                                    , (int) (result.getHot_posting().get(i).get("rating").getAsDouble()), result.getHot_posting().get(i).get("context").getAsString(),result.getHot_posting().get(i).get("idx").getAsInt()));
                         }
 
                     }
 
-                    popular_adpater = new SearchPopularAdapter(getActivity(), popular_itemList, onClickItem);
+                    popular_adpater = new SearchPopularAdapter(getActivity(), popular_itemList, onClickItem_feed);
                     popular_listview.setAdapter(popular_adpater);
 
                     SearchPopularDecoration searchPopularDecoration = new SearchPopularDecoration();
@@ -446,45 +467,34 @@ public class SearchFragment extends Fragment implements OnBackPressedListener {
                     for (int i = 0; i < result.getRealtime_posting().size(); i++) {
                         if (!result.getRealtime_posting().get(i).get("img_url_1").isJsonNull()) {
                             realtime_itemList.add(new ReviewData(result.getRealtime_posting().get(i).get("img_url_1").getAsString(), result.getRealtime_posting().get(i).get("place_name").getAsString()
-                                    , (int) (result.getRealtime_posting().get(i).get("rating").getAsDouble()), result.getRealtime_posting().get(i).get("context").getAsString()));
+                                    , (int) (result.getRealtime_posting().get(i).get("rating").getAsDouble()), result.getRealtime_posting().get(i).get("context").getAsString(),result.getRealtime_posting().get(i).get("idx").getAsInt()));
                         } else {
                             realtime_itemList.add(new ReviewData("none", result.getRealtime_posting().get(i).get("place_name").getAsString()
-                                    , (int) (result.getRealtime_posting().get(i).get("rating").getAsDouble()), result.getRealtime_posting().get(i).get("context").getAsString()));
+                                    , (int) (result.getRealtime_posting().get(i).get("rating").getAsDouble()), result.getRealtime_posting().get(i).get("context").getAsString(),result.getRealtime_posting().get(i).get("idx").getAsInt()));
                         }
 
                     }
 
-                    realtime_adpater = new SearchRealtimeAdapter(getActivity(), realtime_itemList, onClickItem);
+                    realtime_adpater = new SearchRealtimeAdapter(getActivity(), realtime_itemList, onClickItem_feed);
                     realtime_listview.setAdapter(realtime_adpater);
+                    progressOFF();
 
-                    SearchRealtimeDecoration realtime_decoration = new SearchRealtimeDecoration();
-                    realtime_listview.addItemDecoration(realtime_decoration);
-
-
-                } else {
+                }
+                else {
+                    progressOFF();
                     Log.d("data", response.toString());
                 }
             }
 
-
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
+                progressOFF();
                 Log.d("response", "앙실패띠");
                 t.printStackTrace();
             }
         });
 
-
-        return view;
-    }//onCreateView()
-
-    @Override
-    public void onBackPressed() {
-        Log.d("data", "백키");
-
-
     }
-
 
     //----------------------------
     /*  게시글 뿌려주는 클래스     */
@@ -514,7 +524,6 @@ public class SearchFragment extends Fragment implements OnBackPressedListener {
         @Override
         protected Result doInBackground(Void... params) {
 
-
             //작업 수정해야함 ui작업은 밑에서
             result_itemList = new ArrayList<>();
             Log.d("Size: ", Integer.toString(value.getHome_recommendation().size()));
@@ -524,6 +533,7 @@ public class SearchFragment extends Fragment implements OnBackPressedListener {
                 JsonArray place_id_list = value.getHome_recommendation().get(i).get("recommend_place").getAsJsonArray();
                 for (int j = 0; j < place_id_list.size(); j++) {
                     JsonObject JsonObj = place_id_list.get(j).getAsJsonObject();
+                    Log.d("플레이스 아이디 ",JsonObj.get("place_id").getAsString());
                     Place place = (PlacesService.details(JsonObj.get("place_id").getAsString()));
                     if (place.getPhotos() != null) {
                         try {
@@ -575,5 +585,13 @@ public class SearchFragment extends Fragment implements OnBackPressedListener {
             }
         }
     } //NetWorkTask Class
+
+    public void progressON(String message) {
+        ImageManager.getInstance().progressON((Activity)AppManager.getInstance().getContext(), message);
+    }
+
+    public void progressOFF() {
+        ImageManager.getInstance().progressOFF();
+    }
 
 }

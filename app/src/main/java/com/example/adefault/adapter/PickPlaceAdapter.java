@@ -1,6 +1,7 @@
 package com.example.adefault.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,10 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.adefault.PlaceDetailActivity;
 import com.example.adefault.data.PickData;
 import com.example.adefault.R;
+import com.example.adefault.manager.AppManager;
 import com.github.islamkhsh.CardSliderAdapter;
 
 import java.util.ArrayList;
@@ -49,6 +52,14 @@ public class PickPlaceAdapter extends CardSliderAdapter<PickPlaceAdapter.PickVie
         PickData item = itemList.get(i);
         pickViewHolder.imageView.setImageBitmap(itemList.get(i).getImage());
         pickViewHolder.textView2.setText(itemList.get(i).getPlaceName());
+        pickViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AppManager.getInstance().getContext(), PlaceDetailActivity.class);
+                intent.putExtra("place_id", item.getPlace_id());
+                context.startActivity(intent);
+            }
+        });
     }
 
     class PickViewHolder extends RecyclerView.ViewHolder {

@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.adefault.manager.AppManager;
 
 import java.util.ArrayList;
 
@@ -165,10 +166,11 @@ public class VoiceActivity extends AppCompatActivity {
             for(int i = 0; i < matches.size() ; i++){
                 textView.setText(matches.get(i));
             }
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.Main_Frame,SearchResultFragment.newInstance(textView.getText().toString(),""));
-            fragmentTransaction.commit();
+
+            Intent intent = new Intent(AppManager.getInstance().getContext(), SearchResultActivity.class);
+            intent.putExtra("searchSentence", textView.getText().toString());
+            intent.putExtra("uri", "");
+            startActivity(intent);
         }
 
         @Override

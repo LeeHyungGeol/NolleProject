@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".FeedDetailActivity"></activity>
+        <activity android:name=".SearchResultActivity"></activity>
+        <activity android:name=".FeedDetailActivity" />
         <activity android:name=".MyPostingListActivity" />
         <activity android:name=".OtherUserFollwerListActivity" />
         <activity android:name=".OtherUserFollowingListActivity" />
@@ -38,8 +39,7 @@
 
         <activity
             android:name=".VoiceActivity"
-            android:theme="@style/Transparent"></activity>
-
+            android:theme="@style/Transparent" />
         <activity
             android:name=".PopUpProfileEdit"
             android:theme="@android:style/Theme.Dialog" />

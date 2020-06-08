@@ -1,6 +1,7 @@
 package com.example.adefault.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -14,8 +15,10 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.adefault.FeedDetailActivity;
 import com.example.adefault.R;
 import com.example.adefault.data.ReviewData;
+import com.example.adefault.manager.AppManager;
 import com.example.adefault.util.TaskServer;
 
 import java.io.IOException;
@@ -53,11 +56,22 @@ public class SearchPopularAdapter extends RecyclerView.Adapter<SearchPopularAdap
 
         }else{
             holder.imageView.setImageAlpha(R.drawable.movieposter1);
-            }
+        }
         holder.name_textView.setText(item.getPlaceName());
         Log.d("tlqkf",Integer.toString(item.getRating()));
         holder.ratingBar.setRating(item.getRating());
         holder.context_textView.setText(item.getReviewText());
+        holder.view.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                int posting_id = item.getPosting_id();
+                Intent activityIntent = new Intent(AppManager.getInstance().getContext(), FeedDetailActivity.class);
+                activityIntent.putExtra("posting_idx", posting_id);
+                context.startActivity(activityIntent);
+            }
+        });
+
 //        holder.textview.setText(item);
 //        holder.textview.setTag(item);
 //        holder.textview.setOnClickListener(onClickItem);
@@ -75,15 +89,17 @@ public class SearchPopularAdapter extends RecyclerView.Adapter<SearchPopularAdap
         public RatingBar ratingBar;
         public TextView name_textView;
         public TextView context_textView;
+        public View view;
         public ViewHolder(View itemView) {
             super(itemView);
-
+            this.view = itemView;
             imageView = itemView.findViewById(R.id.place_image);
             ratingBar = itemView.findViewById(R.id.ratingbar);
             name_textView = itemView.findViewById(R.id.place_name);
             context_textView = itemView.findViewById(R.id.review_text);
         }
     }
+
     private class DrawUrlImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView ivSample;
 

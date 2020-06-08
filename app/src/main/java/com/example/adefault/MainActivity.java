@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.action_search:
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                    ca.getLogo().setVisibility(View.GONE);
+                    //ca.getLogo().setVisibility(View.GONE);
                     setFrag(3);
                     break;
                 case R.id.action_person:

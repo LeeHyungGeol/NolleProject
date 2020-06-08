@@ -10,6 +10,16 @@ public class PickData {
     private int rating;
     private LatLng location;
 
+    public String getPlace_id() {
+        return place_id;
+    }
+
+    public void setPlace_id(String place_id) {
+        this.place_id = place_id;
+    }
+
+    private String place_id;
+
     public LatLng getLocation() {
         return location;
     }
@@ -38,12 +48,12 @@ public class PickData {
     private float lat;
     private float lng;
 
-    public PickData(Bitmap image, String placeName, int rating, LatLng location){
+    public PickData(Bitmap image, String placeName, int rating, LatLng location,String place_id){
         this.image = image;
         this.placeName = placeName;
         this.rating = rating;
         this.location = location;
-
+        this.place_id = place_id;
     }
 
     public Bitmap getImage()

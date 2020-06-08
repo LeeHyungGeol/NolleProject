@@ -2,6 +2,7 @@ package com.example.adefault;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.example.adefault.Decoration.PickResult;
 import com.example.adefault.adapter.PickPlaceAdapter;
 import com.example.adefault.data.PickData;
+import com.example.adefault.manager.AppManager;
 import com.example.adefault.util.RetrofitClient;
 import com.example.adefault.util.UserToken;
 import com.github.islamkhsh.CardSliderViewPager;
@@ -78,6 +80,7 @@ public class PickFragment extends Fragment implements OnMapReadyCallback {
     private View view;
     private Float lat;
     private Float lng;
+
     public PickFragment() {
         // Required empty public constructor
     }
@@ -87,15 +90,7 @@ public class PickFragment extends Fragment implements OnMapReadyCallback {
         ((MainActivity) getActivity()).showOptionMenu(false);
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PickFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static PickFragment newInstance(String param1, String param2) {
         PickFragment fragment = new PickFragment();
         Bundle args = new Bundle();
@@ -228,10 +223,11 @@ public class PickFragment extends Fragment implements OnMapReadyCallback {
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Toast.makeText(getActivity(), "눌렀습니다!!", Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(), "해위", Toast.LENGTH_LONG);
                 return false;
             }
         });
+
 
 
 
@@ -267,8 +263,15 @@ public class PickFragment extends Fragment implements OnMapReadyCallback {
     GoogleMap.OnInfoWindowClickListener infoWindowClickListener = new GoogleMap.OnInfoWindowClickListener() {
         @Override
         public void onInfoWindowClick(Marker marker) {
+
             String markerId = marker.getId();
+            String restr = markerId.replaceAll("[^0-9]","");
+            Log.d("datadafa",markerId);
+
             Toast.makeText(getActivity(), "정보창 클릭 Marker ID : "+markerId, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(AppManager.getInstance().getContext(), PlaceDetailActivity.class);
+            intent.putExtra("place_id", result_itemList.get(Integer.parseInt(restr)-1).getPlace_id());
+            startActivity(intent);
         }
     };
 
@@ -337,7 +340,7 @@ public class PickFragment extends Fragment implements OnMapReadyCallback {
                     }
 
                     result_itemList.add(new PickData(PlacesService.Photo(photo_reference), place.getName()
-                            , (int) place.getRating(),place.getLatLng()));
+                            , (int) place.getRating(),place.getLatLng(),JsonObj.get("place_id").getAsString()));
 
                 } else {
                     Drawable drawable = getResources().getDrawable(R.drawable.movieposter1);
@@ -347,7 +350,7 @@ public class PickFragment extends Fragment implements OnMapReadyCallback {
 
 
                     result_itemList.add(new PickData(bitmap,place.getName()
-                            , (int) place.getRating(),place.getLatLng()));
+                            , (int) place.getRating(),place.getLatLng(),JsonObj.get("place_id").getAsString()));
 
                 }
 

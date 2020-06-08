@@ -1,6 +1,7 @@
 package com.example.adefault.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -13,8 +14,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.adefault.FeedDetailActivity;
+import com.example.adefault.PlaceDetailActivity;
 import com.example.adefault.R;
 import com.example.adefault.data.ResultData;
+import com.example.adefault.manager.AppManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,7 +55,15 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.place_ratingbar.setRating(item.getRating());
         holder.place_rating.setText(Integer.toString(item.getRating()));
         holder.rcm_person.setText(item.getRcm_person());
+        holder.view.setOnClickListener(new View.OnClickListener(){
 
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AppManager.getInstance().getContext(), PlaceDetailActivity.class);
+                intent.putExtra("place_id", item.getPlace_id());
+                context.startActivity(intent);
+            }
+        });
 
 //        holder.textview.setOnClickListener(onClickItem);
     }
@@ -63,7 +75,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
+        public View view;
         public ImageView place_image;
         public TextView place_name;
         public RatingBar place_ratingbar;
@@ -71,6 +83,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         public TextView rcm_person;
         public ViewHolder(View itemView) {
             super(itemView);
+            this.view = itemView;
             place_image = itemView.findViewById(R.id.place_image);
             place_name = itemView.findViewById(R.id.place_name);
             place_ratingbar = itemView.findViewById(R.id.place_ratingbar);

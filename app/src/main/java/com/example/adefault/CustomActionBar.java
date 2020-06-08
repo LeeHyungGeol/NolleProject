@@ -11,6 +11,15 @@ import androidx.appcompat.widget.Toolbar;
 public class CustomActionBar {
     private Activity activity;
     private ActionBar actionBar;
+    public ActionBar getActionBar() {
+        return actionBar;
+    }
+
+    public void setActionBar(ActionBar actionBar) {
+        this.actionBar = actionBar;
+    }
+
+
 
 
     public ImageView getLogo() {

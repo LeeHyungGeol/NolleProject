@@ -1,12 +1,17 @@
 package com.example.adefault;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -46,6 +51,7 @@ public class FeedDetailActivity extends AppCompatActivity {
     private UserFeedDetailRepository mFeedDetailPick;
     private FeedDetailResponseDTO mFeedDetailResponseDTO;
     private ConfirmDialog mConfirmDialog;
+    private CustomActionBar ca;
 
     private ImageView iv_anotherUserImage;
     private TextView tv_anotherUserName;
@@ -84,7 +90,7 @@ public class FeedDetailActivity extends AppCompatActivity {
         AppManager.getInstance().setResources(getResources());
 
         setContentView(R.layout.activity_feed_detail);
-
+        setActionBar();
         initView();
         initListener();
         getFeedDetailData();
@@ -131,7 +137,11 @@ public class FeedDetailActivity extends AppCompatActivity {
         mTagContainerLayout.setOnTagClickListener(new TagView.OnTagClickListener() {
             @Override
             public void onTagClick(int position, String text) {   // Tag 가 클릭되었을때 실행
-                checkCase(TAG_CLICK);
+                System.out.println("text : " + text);
+                Intent intent = new Intent(AppManager.getInstance().getContext(), SearchResultActivity.class);
+                intent.putExtra("searchSentence", text);
+                intent.putExtra("uri", "");
+                startActivity(intent);
             }
 
             @Override public void onTagLongClick(int position, String text) {
@@ -180,6 +190,11 @@ public class FeedDetailActivity extends AppCompatActivity {
         });
     }
 
+    public void setActionBar() {
+        ca = new CustomActionBar(this, getSupportActionBar());
+        ca.setActionBar();
+    }
+
     public void checkCase(int Case) {
         switch(Case) {
             case PICK_CLICK: // pick 클릭
@@ -196,9 +211,6 @@ public class FeedDetailActivity extends AppCompatActivity {
                 activityIntent = new Intent(AppManager.getInstance().getContext(), OtherUserPageActivity.class);
                 activityIntent.putExtra("user_nickname", mFeedDetailResponseDTO.getNickname());
                 startActivity(activityIntent);
-                break;
-            case TAG_CLICK: //태그 항목 클릭
-
                 break;
         }
     }

@@ -8,11 +8,33 @@ public class ResultData {
     private int rating;
     private String rcm_person;
 
-    public ResultData(Bitmap image, String placeName, int rating, String rcm_person){
+    public int getPosting_id() {
+        return posting_id;
+    }
+
+    public void setPosting_id(int posting_id) {
+        this.posting_id = posting_id;
+    }
+
+    private int posting_id;
+
+    public String getPlace_id() {
+        return place_id;
+    }
+
+    public void setPlace_id(String place_id) {
+        this.place_id = place_id;
+    }
+
+    private String place_id;
+
+    public ResultData(Bitmap image, String placeName, int rating, String rcm_personm,String place_id){
         this.image = image;
         this.placeName = placeName;
         this.rating = rating;
         this.rcm_person = rcm_person;
+        this.posting_id = posting_id;
+        this.place_id = place_id;
     }
 
     public Bitmap getImage()
