@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/replyFragment">
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
+
+    <!--    </LinearLayout>-->
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content" >-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_post_reply"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_marginTop="5dp"
+        android:scrollbars="horizontal"
+        tools:listitem="@layout/post_reply"
+
+        android:layout_weight="1">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:layout_margin="5dp"
+        android:layout_marginTop="200dp"
+        android:orientation="horizontal"
+        android:layout_weight="2">
+
+        <EditText
+            android:id="@+id/edit_post_reply_input"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="20"
+            android:background="@drawable/edit_round"
+            android:hint="댓글을 입력하세요" />
+
+        <ImageView
+            android:id="@+id/image_post_reply"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:src="@drawable/paperplane1" />
+
+    </LinearLayout>
+
+    <!--    </LinearLayout>-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_margin="5dp">-->
+<!--        &lt;!&ndash; ImageView, Button 등을 세로로 배치 &ndash;&gt;-->
+
+<!--        <androidx.appcompat.widget.AppCompatImageView-->
+<!--            android:id="@+id/image_post_detail_userPic"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:src="@drawable/ic_account">-->
+
+<!--        </androidx.appcompat.widget.AppCompatImageView>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="4"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/text_post_detail_user_nickname"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="3"-->
+<!--                android:text="detail_nickname" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/text_post_detail_date"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="2"-->
+<!--                android:text="date" />-->
+<!--        </LinearLayout>-->
+<!--    </LinearLayout>-->
+</LinearLayout>
