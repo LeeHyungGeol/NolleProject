@@ -1,5 +1,7 @@
 package com.example.adefault.FeedPost;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,8 +17,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.adefault.OtherUserPageActivity;
 import com.example.adefault.R;
-import com.example.adefault.Reply.ReplyFragment;
+import com.example.adefault.ReplyActivity;
 import com.example.adefault.data.FollowFeedRepository;
 import com.example.adefault.model.FollowFeedResponseDTO;
 import com.example.adefault.model.FollowFeedReview_data;
@@ -154,7 +157,12 @@ public class FollowFeedFragment extends Fragment implements FollowFeedContract.V
     @Override
     public void onFollowListClicked(int position) {
         System.out.println("int " + position);
-        String posting_id = mFollowFeedResponseDTO.getFollowFeedReview_data().get(position).getPosting_id();
+        String posting_id = dto.getFollowFeedReview_data().get(position).getPosting_id();
+        Toast.makeText(getContext(),"ps"+position,Toast.LENGTH_SHORT).show();
+        //user_nickname = intent.getStringExtra("user_nickname");
+        Intent intent = new Intent(getContext(), OtherUserPageActivity.class);
+        intent.putExtra("user_nickname",dto.getFollowFeedReview_data().get(position).getNickname());
+        startActivity(intent);
 
     }
 
@@ -195,15 +203,16 @@ public class FollowFeedFragment extends Fragment implements FollowFeedContract.V
     }
 
     @Override
-    public void onFollowFeedReplyClicked(int position, View v) {
+    public void onFollowFeedReplyClicked(int position, View v) {  //댓글입력
         ArrayList<FollowFeedReview_data> review = dto.getFollowFeedReview_data();
-
         String posting_id = review.get(position).getPosting_id();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.Main_Frame, ReplyFragment.newInstance(posting_id));
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        Intent intent = new Intent(getContext(), ReplyActivity.class);
+        intent.putExtra("posting_id",posting_id);
+        startActivity(intent);
+
     }
+
+
+
 
 }

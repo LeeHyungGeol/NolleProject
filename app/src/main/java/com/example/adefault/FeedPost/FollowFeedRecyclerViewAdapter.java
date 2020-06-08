@@ -2,6 +2,7 @@ package com.example.adefault.FeedPost;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.adefault.R;
-import com.example.adefault.Reply.ReplyFragment;
 import com.example.adefault.manager.AppManager;
 import com.example.adefault.model.FollowFeedResponseDTO;
 import com.example.adefault.model.FollowFeedReview_data;
@@ -41,7 +41,6 @@ public class FollowFeedRecyclerViewAdapter extends RecyclerView.Adapter<FollowFe
 
     private FollowFeedReview_data review;
     private FollowFeedFragment fragment;
-    private ReplyFragment replyFragment;
 
     TagContainerLayout mTagContainerLayout;
     ArrayList<String> tags;
@@ -101,38 +100,62 @@ public class FollowFeedRecyclerViewAdapter extends RecyclerView.Adapter<FollowFe
             System.out.println(BASE_URL + review.getImage().substring(1));
             Glide.with(context).load(BASE_URL + review.getImage().substring(1)).into(holder.image_post_user_pic);
             holder.text_post_user_nickname.setText(review.getNickname());
-            holder.text_post_date.setText(review.getDate());
+
+            String date = review.getDate();
+            String str;
+            String[] dates = date.split("\\.");
+            String[] a = dates[0].split("T");
+            String[] b = a[0].split("-");
+            String[] c = a[1].split(":");
+            str= b[0]+"년 "+ b[1]+"월 "+b[2]+"일 "+c[0]+"시 "+c[1]+"분";
+
+
+            holder.text_post_date.setText(str);
 
             holder.text_post_context.setText(review.getContext());
             System.out.println("review 1 " + review.getContext());
 //                if(review.getLike_cnt() == null) holder.text_like_cnt.setText("0 명이 좋아합니다.");
 //                else holder.text_like_cnt.setText(review.getLike_cnt() + " 명이 좋아합니다.");
+            Log.d("아답터1",review.getImg_1());
+            try{
+                if (review.getTag_1() != null) tags.add(review.getTag_1());
+                if (review.getTag_2() != null) tags.add(review.getTag_2());
+                if (review.getTag_3() != null) tags.add(review.getTag_3());
+                if (review.getTag_4() != null) tags.add(review.getTag_4());
+                if (review.getTag_5() != null) tags.add(review.getTag_5());
+            }catch (Exception e){
 
-            if (review.getTag_1() != null) tags.add(review.getTag_1());
-            if (review.getTag_2() != null) tags.add(review.getTag_2());
-            if (review.getTag_3() != null) tags.add(review.getTag_3());
-            if (review.getTag_4() != null) tags.add(review.getTag_4());
-            if (review.getTag_5() != null) tags.add(review.getTag_5());
-            if (tags != null) mTagContainerLayout.setTags(tags);
+            }
+            try{
+                if (tags != null) mTagContainerLayout.setTags(tags);
+            }catch (Exception e){
 
+            }
 
+            Log.d("아답터2",review.getImg_1());
 //            Glide.with(context).load(BASE_URL + review.getImage().substring(1)).into(holder.image_post_title_picture);
             System.out.println("title");
-            holder.text_post_title.setText(review.getPlace_name());
-
-            holder.ratingBar.setRating(review.getRating());
-            holder.text_post_rating.setText(String.valueOf(review.getRating()));
-
+            try{
+                holder.text_post_title.setText(review.getPlace_name());
+            }catch (Exception e){
+            }
+            try{
+                holder.ratingBar.setRating(review.getRating());
+            }catch (Exception e){
+            }
+            try{
+                holder.text_post_rating.setText(String.valueOf(review.getRating()));
+            }catch (Exception e){
+            }
 
             PostImageSliderAdapter adapter = new PostImageSliderAdapter(AppManager.getInstance().getContext());
 
             System.out.println(BASE_URL + "media/posting/2020/05/19/33/8933623b59084522bc326641eba7fb79.jpg");
 //                adapter.addItem(new SliderItem("Default", BASE_URL + "media/posting/2020/05/19/33/8933623b59084522bc326641eba7fb79.jpg"));
+            String str1 = review.getImg_1();
+            Log.d("아답터",review.getImg_1());
 
             try {
-                String str = review.getImg_1();
-                System.out.println("str " + str);
-
                 if (mFollowFeedResponseDTO.getFollowFeedReview_data().get(position).getImg_1() != null)
                     adapter.addItem(new SliderItem("Demo image 1", FollowFeedAPI.BASE_URL + review.getImg_1().substring(1)));
                 if (mFollowFeedResponseDTO.getFollowFeedReview_data().get(position).getImg_2() != null)
@@ -232,7 +255,6 @@ public class FollowFeedRecyclerViewAdapter extends RecyclerView.Adapter<FollowFe
 
             text_like_cnt = itemView.findViewById(R.id.text_like_cnt);
             title = itemView.findViewById(R.id.title);
-            text_post_title = itemView.findViewById(R.id.text_posting_name);
 
             image_reply = itemView.findViewById(R.id.image_post_reply);
             image_like = itemView.findViewById(R.id.image_post_like);
@@ -247,18 +269,11 @@ public class FollowFeedRecyclerViewAdapter extends RecyclerView.Adapter<FollowFe
             PostImageSliderAdapter adapter = new PostImageSliderAdapter(AppManager.getInstance().getContext());
             sliderView.setSliderAdapter(adapter);
 
-            adapter.addItem(new SliderItem("default", "https://images.pexels.com/photos/929778/pexels-photo-929778.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"));
 
-            System.out.println(BASE_URL + "media/posting/2020/05/19/33/8933623b59084522bc326641eba7fb79.jpg");
-            adapter.addItem(new SliderItem("Default", BASE_URL + "media/posting/2020/05/19/33/8933623b59084522bc326641eba7fb79.jpg"));
-
-
-            image_post_title_picture = itemView.findViewById(R.id.image_post_title_picture);
             text_post_context = itemView.findViewById(R.id.text_post_context);
 
             ratingBar = itemView.findViewById(R.id.ratingBar);
 
-            text_post_rating = itemView.findViewById(R.id.text_rating);
 
             System.out.println("ADAPTER 5");
 

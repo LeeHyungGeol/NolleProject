@@ -1,9 +1,12 @@
 package com.example.adefault.FeedPost;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.example.adefault.data.FollowFeedLikeRepository;
 import com.example.adefault.data.FollowFeedRepository;
+import com.example.adefault.manager.AppManager;
+import com.example.adefault.manager.ImageManager;
 import com.example.adefault.model.FollowFeedResponseDTO;
 import com.example.adefault.model.LikeResponseDTO;
 import com.example.adefault.util.FollowFeedAPI;
@@ -29,6 +32,7 @@ public class FollowFeedPresenter implements FollowFeedContract.Presenter {
 
 
     public FollowFeedResponseDTO callPostData() {
+        progressON("피드를 불러오는 중입니다");
         final FollowFeedResponseDTO[] mFollowReedResponseDTO = {new FollowFeedResponseDTO()};
 //        if (mRepository.isAvailable()) {
 //            mRepository.getPostData(callback);
@@ -39,6 +43,7 @@ public class FollowFeedPresenter implements FollowFeedContract.Presenter {
                     mFollowReedResponseDTO[0] = response.body();
                     System.out.println("Dto " + mFollowReedResponseDTO[0].getFollowFeedReview_data().size());
                     mView.showPostData(mFollowReedResponseDTO[0]);
+                    progressOFF();
                 }
                 else Log.d("response", "fail");
             }
@@ -51,6 +56,14 @@ public class FollowFeedPresenter implements FollowFeedContract.Presenter {
         });
         return mFollowReedResponseDTO[0];
 
+    }
+
+    public void progressON(String message) {
+        ImageManager.getInstance().progressON((Activity) AppManager.getInstance().getContext(), message);
+    }
+
+    public void progressOFF() {
+        ImageManager.getInstance().progressOFF();
     }
 
 }

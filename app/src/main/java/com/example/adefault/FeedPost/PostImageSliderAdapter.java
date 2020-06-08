@@ -56,7 +56,6 @@ public class PostImageSliderAdapter extends SliderViewAdapter<PostImageSliderAda
 //        viewHolder.textViewDescription.setTextColor(Color.WHITE);
         Glide.with(viewHolder.itemView)
                 .load(sliderItem.getImageUrl())
-                .fitCenter()
                 .into(viewHolder.imageViewBackground);
 
 //        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

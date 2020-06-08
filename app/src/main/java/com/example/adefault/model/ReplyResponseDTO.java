@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class ReplyResponseDTO {
 
-    @SerializedName("review_data") // api 리스폰 시 들어올 age라는 json key
     private ArrayList<ReplyReview_data> review_data;
 
     public ReplyResponseDTO() { }
