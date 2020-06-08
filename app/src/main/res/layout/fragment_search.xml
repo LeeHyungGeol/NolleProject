@@ -1,14 +1,275 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchFragment">
+    tools:context=".MainActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-         />
+        android:padding="10dp"
+        tools:context=".MainActivity">
 
-</FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout0"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <Button
+                android:id="@+id/tag1"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:text="tag1"
+                android:background="@drawable/button_bakcground_grey"
+                />
+            <Button
+                android:id="@+id/tag2"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:text="tag2"
+                android:background="@drawable/button_bakcground_grey"
+                />
+            <Button
+                android:id="@+id/tag3"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:text="tag3"
+                android:background="@drawable/button_bakcground_grey"
+                />
+            <Button
+                android:id="@+id/tag4"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:text="tag4"
+                android:background="@drawable/button_bakcground_grey"
+                />
+
+            <Button
+                android:id="@+id/tag5"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="30dp"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:text="tag5"
+                android:background="@drawable/button_bakcground_grey"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout0">
+
+            <ImageView
+                android:src="@drawable/user_icon"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/text0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="사용자"
+                android:textColor="#FFC107"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="님에게 추천한 장소"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/main_listview"
+                android:nestedScrollingEnabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:scrollbars="horizontal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+            <ImageView
+                android:src="@drawable/star_icon"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/text01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="실시간"
+                android:textColor="#FFC107"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 리뷰"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/realtime_listview"
+                android:nestedScrollingEnabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" />
+            <!--<ListView
+                android:id="@+id/listView"
+                android:nestedScrollingEnabled="false"
+                android:layout_height="200dp"
+                android:layout_width="match_parent" />-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+            <ImageView
+                android:src="@drawable/heart_icon"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/text02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="인기"
+                android:textColor="#FFC107"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 리뷰"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/popular_listview"
+                android:nestedScrollingEnabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" />
+            <!--<ListView
+                android:id="@+id/listView2"
+                android:nestedScrollingEnabled="false"
+                android:layout_height="200dp"
+                android:layout_width="match_parent" />-->
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

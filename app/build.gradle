@@ -11,11 +11,11 @@ android {
 
     defaultConfig {
         applicationId "com.example.adefault"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -45,6 +45,18 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.android.material:material:1.0.0'
+
+    //승연이
+
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'me.relex:circleindicator:2.1.4'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.airbnb.android:lottie:2.5.5'
+    implementation 'com.github.Mariovc:ImagePicker:1.2.2'
+    implementation 'com.github.IslamKhSh:CardSlider:1.0.1'
+
 
     //Google Place
     implementation 'com.google.android.libraries.places:places:2.2.0'
@@ -88,7 +100,6 @@ dependencies {
 
     //태그 라이브러리
     implementation 'co.lujun:androidtagview:1.1.7'
-    implementation 'androidx.appcompat:appcompat:1.0.1'
 
     //이미지 원형 변형 라이브러리
     implementation 'de.hdodenhof:circleimageview:3.0.0'

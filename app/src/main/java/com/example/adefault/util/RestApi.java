@@ -9,6 +9,7 @@ import com.example.adefault.model.MyFollowResponseDTO;
 import com.example.adefault.model.MyPageEditResponseDTO;
 import com.example.adefault.model.MyPageResponseDTO;
 import com.example.adefault.model.MyPostingResponseDTO;
+import com.example.adefault.model.OtherUserFollowResponseDTO;
 import com.example.adefault.model.PlaceDetailDTO;
 import com.example.adefault.model.PlaceDetailResponseDTO;
 import com.example.adefault.model.PlacePickResponseDTO;
@@ -83,11 +84,12 @@ public interface RestApi {
     @GET("mypageApp/userpage/{user_id}/")
     Call<UserPageResponseDTO> user_page(@Header("Authorization") String token, @Path("user_id")String id);
 
-    @GET("mypageApp/userfollow/{user_nickname}") //다른 사용자 팔로우 팔로워 리스트 출력
+    @GET("mypageApp/userfollow/{user_nickname}/") //다른 사용자 팔로우 팔로워 리스트 출력
     Call<UserFollowResponseDTO> user_follow(@Header("Authorization") String token, @Path("user_nickname")String nickname);
 
     @GET("mypageApp/myposting/") //자신의 게시글 불러오기
     Call<MyPostingResponseDTO> my_posting(@Header("Authorization") String token);
+
 
     @GET("recommendApp/detail/posting/{posting_idx}/")
     Call<FeedDetailResponseDTO> feed_detail(@Header("Authorization") String token, @Path("posting_idx") int idx);
@@ -97,5 +99,9 @@ public interface RestApi {
 
     @POST("place_detail/2/")
     Call<FeedDetailPickResponseDTO> feed_detail_pick(@Header("Authorization") String token, @Body PickDTO pickDTO);
+
+    @GET("mypageApp/managefollow/{user_nickname}/")
+    Call<OtherUserFollowResponseDTO> follow(@Header("Authorization") String token, @Path("user_nickname")String nickname);
+
 
 }

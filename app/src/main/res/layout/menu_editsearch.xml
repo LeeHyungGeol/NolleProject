@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="horizontal">
+
+
+
+    <android.widget.SearchView
+        android:id="@+id/edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:clickable="true"
+        android:hint="@string/search"
+        android:textColorHint="#555555"
+        android:textColor="@android:color/black"
+        android:textColorLink="#ff775e"
+        />
+
+</LinearLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">    <!--
+    showAsAction 메뉴는 안드로이드 SDK 에 포함된 속성이 아니라
+    외부 라이브러리(appcompat-v7)에 포함된 속성이어서 android: 접두어가 아닌 app: 접두어를 붙인다.
+    이 속성의 값을 always 로 하면 화면 상단의 타이틀 부분에 메뉴 아이콘이 항상 보이게 된다.
+    다른 속성 값으로는 never (절대로 액션바에 표시하지 않음),
+    ifRoom (표시할 수 있는 공간이 존재하면 표시),
+    withText (메뉴의 아이콘과 텍스트를 같이 표시)가 있다.
+    -->
+    <group android:id="@+id/search_menu_group">
+
+        <!--<item
+            android:id="@+id/menu_search_icon"
+            android:icon="@drawable/menu_search"
+
+            android:title="검색아이콘"
+            app:showAsAction="always" />-->
+        <item
+            android:id="@+id/menu_search"
+            android:title="검색"
+            android:icon="@drawable/menu_search"
+            app:actionViewClass="android.widget.SearchView"
+            app:showAsAction="always" />
+
+        <item
+            android:id="@+id/menu_image"
+            android:icon="@drawable/menu_image"
+            android:title="이미지 검색"
+            app:showAsAction="always" />
+
+
+        <item
+            android:id="@+id/menu_voice"
+            android:icon="@drawable/menu_voice"
+            android:title="음성 검색"
+            app:showAsAction="always" />
+    </group>
+</menu>

@@ -62,14 +62,13 @@ import retrofit2.Response;
 import static com.android.volley.VolleyLog.TAG;
 
 
-public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeMyPickClickListener, HomeRealTimeAdapter.HomeRealTimeClickListener {
+public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeMyPickClickListener, HomeRealTimeAdapter.HomeRealTimeClickListener, HomeSliderAdapter.HomeSliderViewClickListener {
 
     private PlaceAPI mPlaceApi;
     private PlacesClient mPlacesClient;
 
     private HomeResponseDTO mHomeResponseDTO;
     private UserHomeRepository mUserHomeRepository;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     private ConfirmDialog mConfirmDialog;
 
     private TagContainerLayout mTagContainerLayout;
@@ -82,6 +81,7 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
     private RecyclerView mRealTimeRecyclerView;
     private ArrayList<RealTime> realTime;
     private ArrayList<HotReview> hotReview;
+    private ArrayList<RecommendPlace> recommendPlace;
 
     private Intent activityIntent;
 
@@ -138,6 +138,7 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
         mSliderView = view.findViewById(R.id.imageSlider_homeFragment);
         adapter = new HomeSliderAdapter(AppManager.getInstance().getContext());
         mSliderView.setSliderAdapter(adapter);
+        adapter.setOnClickListener(this);
 
         mSliderView.setIndicatorAnimation(IndicatorAnimations.THIN_WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
         mSliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
@@ -196,6 +197,13 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    public void onHomeSliderViewItemClicked(int position) {
+//        Toast.makeText(AppManager.getInstance().getContext(), "This is item in position " + position, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(AppManager.getInstance().getContext(), PlaceDetailActivity.class);
+        intent.putExtra("place_id", recommendPlace.get(position).getPlace_id());
+        startActivity(intent);
+    }
 
     public void setGooglePlaceImage(String placeId) { //google place id를 통해 이미지를 가져옴
         mPlaceApi.setBitmapByPlaceId(adapter, placeId);
@@ -205,7 +213,7 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
         ArrayList<HomeRecommendation> homeRecommendation = homeResponseDTO.getHome_recommendation();
         int random = (int)(Math.random()*homeRecommendation.size());  //homeRecommendation 에 있는 사람 중 한명 랜덤으로 뽑기
         // homeRecommendation size 는 최대 5에서 최소 2로 어떻게 올지 모르기 때문에 random 으로 하나의 숫자를 뽑아야 함
-        ArrayList<RecommendPlace> recommendPlace = homeRecommendation.get(random).getRecommend_place();
+        recommendPlace = homeRecommendation.get(random).getRecommend_place();
         tv_anotherUserName.setText(homeRecommendation.get(random).getNickname()); // ~~~님이 추천한 장소, ~~~ 님의 프로필 이미지
         ImageManager.getInstance().GlideWithContext(AppManager.getInstance().getContext(), iv_anotherUserImage, ImageManager.getInstance().getFullImageString(homeRecommendation.get(random).getImage()));
 
@@ -381,4 +389,5 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
         //Toast.makeText(AppManager.getInstance().getContext(), "HotReviewPlaceImage" + position, Toast.LENGTH_SHORT).show();
         checkCase(PLACE, position, HOT);
     }
+
 }

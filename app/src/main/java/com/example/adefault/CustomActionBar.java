@@ -3,6 +3,7 @@ package com.example.adefault;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
@@ -10,6 +11,17 @@ import androidx.appcompat.widget.Toolbar;
 public class CustomActionBar {
     private Activity activity;
     private ActionBar actionBar;
+
+
+    public ImageView getLogo() {
+        return logo;
+    }
+
+    public void setLogo(ImageView logo) {
+        this.logo = logo;
+    }
+
+    private ImageView logo;
 
     public CustomActionBar(Activity _activity, ActionBar _actionBar) {
         this.activity = _activity;
@@ -23,6 +35,7 @@ public class CustomActionBar {
         actionBar.setDisplayShowHomeEnabled(false);
 
         View mCustomView = LayoutInflater.from(activity).inflate(R.layout.custom_actionbar,null);
+        logo = mCustomView.findViewById(R.id.iv_logo);
         actionBar.setCustomView(mCustomView);
 
         Toolbar parent = (Toolbar)mCustomView.getParent();

@@ -2,13 +2,14 @@ package com.example.adefault;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.view.Menu;
+import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.adefault.Decoration.OnBackPressedListener;
 import com.example.adefault.manager.AppManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -17,10 +18,13 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView; // 바텀 네비게이션 뷰
     private FragmentManager fm;
     private FragmentTransaction ft;
+    private CustomActionBar ca;
     private HomeFragment homefragment;
     private MenuFragment menufragment;
     private MyPageFragment mypagefragment;
     private SearchFragment searchfragment;
+    private Menu mMenu;
+    private OnBackPressedListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +45,16 @@ public class MainActivity extends AppCompatActivity {
                     setFrag(0);
                     break;
                 case R.id.action_menu:
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    ca.getLogo().setVisibility(View.VISIBLE);
                     setFrag(1);
                     break;
                 case R.id.action_add:
                     setFrag(2);
                     break;
                 case R.id.action_search:
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    ca.getLogo().setVisibility(View.GONE);
                     setFrag(3);
                     break;
                 case R.id.action_person:
@@ -72,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setActionBar() {
-        CustomActionBar ca = new CustomActionBar(this, getSupportActionBar());
+        ca = new CustomActionBar(this, getSupportActionBar());
         ca.setActionBar();
     }
 
@@ -97,13 +105,35 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case 3:
-                ft.replace(R.id.Main_Frame, searchfragment);
+                ft.remove(searchfragment);
+                searchfragment = new SearchFragment();
+                ft.replace(R.id.Main_Frame,searchfragment);
                 ft.commit();
                 break;
             case 4:
                 ft.replace(R.id.Main_Frame, mypagefragment);
                 ft.commit();
                 break;
+        }
+    }
+
+    public void showOptionMenu(boolean isShow) {
+        if (mMenu == null) {
+            return;
+        }
+        mMenu.setGroupVisible(R.id.search_menu_group, isShow);
+    }
+
+    public void setOnBackPressedListener(OnBackPressedListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (listener != null) {
+            listener.onBackPressed();
+        } else {
+            super.onBackPressed();
         }
     }
 }

@@ -22,6 +22,16 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
     private Context context;
     private List<HomeSliderItem> mSliderItems = new ArrayList<>();
 
+    public interface HomeSliderViewClickListener {
+        void onHomeSliderViewItemClicked(int position);
+    }
+
+    private HomeSliderViewClickListener mListener;
+
+    public void setOnClickListener(HomeSliderViewClickListener listener) {
+        mListener = listener;
+    }
+
     public HomeSliderAdapter(Context context) {
         this.context = context;
     }
@@ -65,12 +75,22 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
 //                .fitCenter()
 //                .into(viewHolder.imageViewBackground);
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "This is item in position " + position, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(context, "This is item in position " + position, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+        if(mListener != null) {
+            final int pos = position;
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onHomeSliderViewItemClicked(pos);
+                }
+            });
+        }
     }
 
     @Override
