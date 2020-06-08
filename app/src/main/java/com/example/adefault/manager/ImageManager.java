@@ -79,6 +79,9 @@ public class ImageManager {
 
     public String getFullImageString(String img_url) {
         String url = BASE_URL;
+        if(img_url == null) {
+            return url;
+        }
         if (img_url.charAt(0) == '/') {  // 서버에서 주는 imgUrl 의 첫 부분이 / 로 시작할 때
             url = BASE_URL.substring(0, BASE_URL.length()-1); // BASE_URL의 마지막 부분의 / 을 자른다.
         }

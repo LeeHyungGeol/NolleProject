@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -82,29 +83,45 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
     private ArrayList<RealTime> realTime;
     private ArrayList<HotReview> hotReview;
 
+    private Intent activityIntent;
+
+    private final static int ITEM = 1;
+    private final static int USER = 2;
+    private final static int PLACE = 3;
+    private final static int HOT = 4;
+    private final static int REAL = 5;
+
     public HomeFragment() {
         // Required empty public constructor
     }
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
-
         return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        System.out.println("onCreate");
         super.onCreate(savedInstanceState);
     }
 
-    @Override
+    @Override  // onCreateView <-> onSaveInstanceState
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home,container,false);
         initView(view);
         initListener();
-
+        if(AppManager.getInstance().getmHomeResponseDTO() != null) {
+            //HomeResponseDTO home = (HomeResponseDTO) savedInstanceState.getSerializable("homeResponseDTO");
+            HomeResponseDTO home = AppManager.getInstance().getmHomeResponseDTO();
+            setHomeRecommendation(home);
+            setHomeTags(home);
+            setHotReview(home);
+            setRealTimeReview(home);
+            return view;
+        }
         getHomeData();
         return view;
     }
@@ -172,12 +189,20 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
 
     }
 
+    @Override // onCreateView <-> onSaveInstanceState
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+       // outState.putSerializable("homeResponseDTO", mHomeResponseDTO);
+        System.out.println("onSaveInstanceState");
+        super.onSaveInstanceState(outState);
+    }
+
+
     public void setGooglePlaceImage(String placeId) { //google place id를 통해 이미지를 가져옴
         mPlaceApi.setBitmapByPlaceId(adapter, placeId);
     }
 
-    public void setHomeRecommendation() {
-        ArrayList<HomeRecommendation> homeRecommendation = mHomeResponseDTO.getHome_recommendation();
+    public void setHomeRecommendation(HomeResponseDTO homeResponseDTO) {
+        ArrayList<HomeRecommendation> homeRecommendation = homeResponseDTO.getHome_recommendation();
         int random = (int)(Math.random()*homeRecommendation.size());  //homeRecommendation 에 있는 사람 중 한명 랜덤으로 뽑기
         // homeRecommendation size 는 최대 5에서 최소 2로 어떻게 올지 모르기 때문에 random 으로 하나의 숫자를 뽑아야 함
         ArrayList<RecommendPlace> recommendPlace = homeRecommendation.get(random).getRecommend_place();
@@ -190,21 +215,21 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
 
     }
 
-    public void setHomeTags() {
-        ArrayList<CategoryM> categoryM = mHomeResponseDTO.getCategory_m();
-        ArrayList<CategoryS> categoryS = mHomeResponseDTO.getCategory_s();
+    public void setHomeTags(HomeResponseDTO homeResponseDTO) {
+        ArrayList<CategoryM> categoryM = homeResponseDTO.getCategory_m();
+        ArrayList<CategoryS> categoryS = homeResponseDTO.getCategory_s();
         for(int i = 0; i < categoryM.size(); i++) {
-            mTags.add(categoryM.get(i).getCtgr_name());
+            mTags.add("#" + categoryM.get(i).getCtgr_name());
         }
         for(int i = 0; i < categoryS.size(); i++) {
-            mTags.add(categoryS.get(i).getCtgr_name());
+            mTags.add("#" + categoryS.get(i).getCtgr_name());
         }
         mTagContainerLayout.setTags(mTags);
     }
 
-    public void setHotReview() {
+    public void setHotReview(HomeResponseDTO homeResponseDTO) {
         List<HomeHotReviewItem> dataList = new ArrayList<>();
-        hotReview = mHomeResponseDTO.getHot();
+        hotReview = homeResponseDTO.getHot();
         for(int i = 0; i < hotReview.size(); i++) {
             dataList.add(new HomeHotReviewItem(hotReview.get(i).getNickname(), ImageManager.getInstance().getFullImageString(hotReview.get(i).getImage()), hotReview.get(i).getPlace_name()
                     , hotReview.get(i).getRating(), ImageManager.getInstance().getFullImageString(hotReview.get(i).getImg_url_1())));
@@ -216,9 +241,9 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
 
     }
 
-    public void setRealTimeReview() {
+    public void setRealTimeReview(HomeResponseDTO homeResponseDTO) {
         List<HomeRealTimeItem> dataList = new ArrayList<>();
-        realTime = mHomeResponseDTO.getReal_time();
+        realTime = homeResponseDTO.getReal_time();
 
         for(int i = 0; i < realTime.size(); i++) {  //name, review, rating, url
             dataList.add(new HomeRealTimeItem(realTime.get(i).getPlace_name(), realTime.get(i).getContext(), realTime.get(i).getRating()
@@ -234,6 +259,7 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
 
     public void getHomeData() {
         progressON("로딩 중입니다...");
+        AppManager.getInstance().createHomeResponse(); // singleTonPattern
         String token = "Token " + AppManager.getInstance().getUser().getToken();
         System.out.println("getHomeData");
         System.out.println("token : " + token);
@@ -247,15 +273,16 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
                     System.out.println("response.isSuccessful : " + response.isSuccessful());
                     if(response.isSuccessful()) {
                         mHomeResponseDTO = response.body();
-                        setHomeRecommendation();
-                        setHomeTags();
-                        setHotReview();
-                        setRealTimeReview();
+                        AppManager.getInstance().setmHomeResponseDTO(mHomeResponseDTO);
+                        setHomeRecommendation(mHomeResponseDTO);
+                        setHomeTags(mHomeResponseDTO);
+                        setHotReview(mHomeResponseDTO);
+                        setRealTimeReview(mHomeResponseDTO);
                         progressOFF();
                     }
                     else {
                         progressOFF();
-                        mConfirmDialog.setMessage("서버와 통신이 원활하지 않습니다.");
+                        mConfirmDialog.setMessage("onResponse : 서버와 통신이 원활하지 않습니다.");
                         mConfirmDialog.show();
                     }
                 }
@@ -264,7 +291,7 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
                 public void onFailure(Call<HomeResponseDTO> call, Throwable t) {
                     System.out.println(t.getMessage());
                     progressOFF();
-                    mConfirmDialog.setMessage("서버와 통신이 원활하지 않습니다.");
+                    mConfirmDialog.setMessage("onFailure : 서버와 통신이 원활하지 않습니다.");
                     mConfirmDialog.show();
                 }
             });
@@ -280,47 +307,78 @@ public class HomeFragment extends Fragment implements HomeHotReviewAdapter.HomeM
         ImageManager.getInstance().progressOFF();
     }
 
+    public void checkCase(int Case, int pos, int itemCase) {
 
+        if(itemCase == HOT) {
+            switch (Case) {
+                case ITEM:
+                case PLACE:
+                    activityIntent = new Intent(AppManager.getInstance().getContext(), FeedDetailActivity.class);
+                    activityIntent.putExtra("posting_idx", hotReview.get(pos).getIdx());
+                    startActivity(activityIntent);
+                    break;
+                case USER:
+                    activityIntent = new Intent(AppManager.getInstance().getContext(), OtherUserPageActivity.class);
+                    activityIntent.putExtra("user_nickname", hotReview.get(pos).getNickname());
+                    startActivity(activityIntent);
+                    break;
+            }
+            return;
+        }
+        else if(itemCase == REAL) {
+            switch (Case) {
+                case ITEM:
+                case PLACE:
+                    activityIntent = new Intent(AppManager.getInstance().getContext(), FeedDetailActivity.class);
+                    activityIntent.putExtra("posting_idx", realTime.get(pos).getIdx());
+                    startActivity(activityIntent);
+                    break;
+            }
+            return;
+        }
+        return;
+    }
 
     @Override
     public void onRealTimeItemClicked(int position) { //나중에 다른 화면으로 이동하는 부분 여기에 구현  //해당 리뷰에 대한 게시글 화면으로 이동 // 아마도 게시글 리스트 화면이 될 것
-        Toast.makeText(AppManager.getInstance().getContext(), "RealTimeItem" + position, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(AppManager.getInstance().getContext(), "RealTimeItem" + position, Toast.LENGTH_SHORT).show();
+       checkCase(ITEM, position, REAL);
     }
 
     @Override
     public void onRealTimePlaceNameClicked(int position) { //실시간 리뷰의 장소 이름을 클릭할 경우 //해당 리뷰에 대한 게시글 화면으로 이동
-        Toast.makeText(AppManager.getInstance().getContext(), "RealTimePlaceName" + position, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(AppManager.getInstance().getContext(), "RealTimePlaceName" + position, Toast.LENGTH_SHORT).show();
+        checkCase(PLACE, position, REAL);
+
     }
 
     @Override
     public void onRealTimePlaceImageClicked(int position) { //실시간 리뷰의 장소 이미지를 클릭할 경우 //해당 리뷰에 대한 게시글 화면으로 이동
-        Toast.makeText(AppManager.getInstance().getContext(), "RealTimePlaceImage" + position, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(AppManager.getInstance().getContext(), "RealTimePlaceImage" + position, Toast.LENGTH_SHORT).show();
+        checkCase(PLACE, position, REAL);
     }
-
 
     @Override
     public void onHotReviewItemClicked(int position) { //핫 리뷰의 카드뷰를 클릭할 경우 //해당 리뷰에 대한 게시글 화면으로 이동
-        Toast.makeText(AppManager.getInstance().getContext(), "HotReviewItem" + position, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(AppManager.getInstance().getContext(), "HotReviewItem" + position, Toast.LENGTH_SHORT).show();
+        checkCase(ITEM, position, HOT);
     }
 
     @Override
     public void onHotReviewUserImageClicked(int position) { //핫 리뷰의 사용자 이미지를 클릭할 경우 //다른 사용자의 페이지로 이동 구현할 것
-        Toast.makeText(AppManager.getInstance().getContext(), "HotReviewUserImage" + position, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(AppManager.getInstance().getContext(), OtherUserPageActivity.class);
-        intent.putExtra("user_nickname", hotReview.get(position).getNickname());
-        startActivity(intent);
+        //Toast.makeText(AppManager.getInstance().getContext(), "HotReviewUserImage" + position, Toast.LENGTH_SHORT).show();
+        checkCase(USER, position, HOT);
     }
 
     @Override
     public void onHotReviewUserNameClicked(int position) { //핫 리뷰의 사용자 이름을 클릭할 경우 //다른 사용자의 페이지로 이동 구현할 것
-        Toast.makeText(AppManager.getInstance().getContext(), "HotReviewUserName" + position, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(AppManager.getInstance().getContext(), OtherUserPageActivity.class);
-        intent.putExtra("user_nickname", hotReview.get(position).getNickname());
-        startActivity(intent);
+        //Toast.makeText(AppManager.getInstance().getContext(), "HotReviewUserName" + position, Toast.LENGTH_SHORT).show();
+        checkCase(USER, position, HOT);
     }
 
     @Override
     public void onHotReviewPlaceImageClicked(int position) { //핫 리뷰의 장소 이미지를 클릭할 경우 //해당 리뷰에 대한 게시글 화면으로 이동
-        Toast.makeText(AppManager.getInstance().getContext(), "HotReviewPlaceImage" + position, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(AppManager.getInstance().getContext(), "HotReviewPlaceImage" + position, Toast.LENGTH_SHORT).show();
+        checkCase(PLACE, position, HOT);
     }
 }

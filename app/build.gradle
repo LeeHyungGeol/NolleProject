@@ -55,7 +55,8 @@ dependencies {
 
 
     //image picker
-    implementation 'com.github.esafirm.android-image-picker:imagepicker:1.13.1'  // for experimental rx picker
+    implementation 'com.github.esafirm.android-image-picker:imagepicker:1.13.1'
+    // for experimental rx picker
     implementation 'com.github.esafirm.android-image-picker:rximagepicker:1.13.1'
 
     //cardView

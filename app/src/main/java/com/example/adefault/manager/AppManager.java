@@ -12,6 +12,7 @@ import com.example.adefault.ConfirmDialog;
 import com.example.adefault.model.LoginResponseDTO;
 import com.example.adefault.model.RegisterResponseDTO;
 import com.example.adefault.model.User;
+import com.example.adefault.model.home.HomeResponseDTO;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,7 @@ public class AppManager {
 
     private LoginResponseDTO mLoginResponseDTO;
     private User user;
+    private HomeResponseDTO mHomeResponseDTO;
 
     private AppManager() {
         user = new User();
@@ -57,6 +59,9 @@ public class AppManager {
 
     //객체를 저장하고 불러오는 메소드들을 생성.
 
+    public void createHomeResponse() {
+        mHomeResponseDTO = new HomeResponseDTO();
+    }
 
     public User getUser() {
         return user;
@@ -72,6 +77,14 @@ public class AppManager {
 
     public void setmLoginResponseDTO(LoginResponseDTO mLoginResponseDTO) {
         this.mLoginResponseDTO = mLoginResponseDTO;
+    }
+
+    public HomeResponseDTO getmHomeResponseDTO() {
+        return mHomeResponseDTO;
+    }
+
+    public void setmHomeResponseDTO(HomeResponseDTO mHomeResponseDTO) {
+        this.mHomeResponseDTO = mHomeResponseDTO;
     }
 
     public Context getContext() { return context;}

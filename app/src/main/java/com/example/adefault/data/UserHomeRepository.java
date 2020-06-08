@@ -13,7 +13,7 @@ public class UserHomeRepository implements HomeRepository{
     private String mToken;
 
     public UserHomeRepository() {
-        this.mRestApiUtil = new RestApiUtil();;
+        this.mRestApiUtil = new RestApiUtil();
     }
 
     public UserHomeRepository(String token) {

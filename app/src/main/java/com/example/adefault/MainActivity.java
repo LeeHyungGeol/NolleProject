@@ -63,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
         searchfragment = new SearchFragment();
         mypagefragment = new MyPageFragment();
 
-        setFrag(0); // 첫 프래그먼트 화면 지정
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.Main_Frame, homefragment).commit();
+        //setFrag(0); // 첫 프래그먼트 화면 지정
 
         AppManager.getInstance().setMainActivity(this);
 
@@ -82,12 +84,11 @@ public class MainActivity extends AppCompatActivity {
         switch (n)
         {
             case 0:
-                ft.replace(R.id.Main_Frame,homefragment);
-                ft.commit();
+                ft.replace(R.id.Main_Frame, HomeFragment.newInstance()).commit();
                 break;
 
             case 1:
-                ft.replace(R.id.Main_Frame,menufragment);
+                ft.replace(R.id.Main_Frame, menufragment);
                 ft.commit();
                 break;
 
@@ -96,11 +97,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case 3:
-                ft.replace(R.id.Main_Frame,searchfragment);
+                ft.replace(R.id.Main_Frame, searchfragment);
                 ft.commit();
                 break;
             case 4:
-                ft.replace(R.id.Main_Frame,mypagefragment);
+                ft.replace(R.id.Main_Frame, mypagefragment);
                 ft.commit();
                 break;
         }

@@ -1,8 +1,9 @@
 package com.example.adefault.model.home;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class HomeResponseDTO {
+public class HomeResponseDTO implements Serializable {
 
     private ArrayList<HomeRecommendation> home_recommendation;
     private ArrayList<RealTime> real_time;

@@ -14,6 +14,11 @@ import com.example.adefault.model.PlaceDetailResponseDTO;
 import com.example.adefault.model.PlacePickResponseDTO;
 import com.example.adefault.model.RegisterResponseDTO;
 import com.example.adefault.model.User;
+import com.example.adefault.model.feedDetail.FeedDetailLikeResponseDTO;
+import com.example.adefault.model.feedDetail.FeedDetailPickResponseDTO;
+import com.example.adefault.model.feedDetail.FeedDetailResponseDTO;
+import com.example.adefault.model.feedDetail.LikeDTO;
+import com.example.adefault.model.feedDetail.PickDTO;
 import com.example.adefault.model.home.HomeResponseDTO;
 import com.example.adefault.model.UserFollowResponseDTO;
 import com.example.adefault.model.UserPageResponseDTO;
@@ -35,7 +40,7 @@ import retrofit2.http.Path;
 
 public interface RestApi {
 
-    String BASE_URL = "http://8f47d9d27903.ngrok.io/";
+    String BASE_URL = "http://14cda9975e4f.ngrok.io/";
 
     //String BASE_URL = "http://172.30.1.42:8000/";
 
@@ -83,5 +88,14 @@ public interface RestApi {
 
     @GET("mypageApp/myposting/") //자신의 게시글 불러오기
     Call<MyPostingResponseDTO> my_posting(@Header("Authorization") String token);
+
+    @GET("recommendApp/detail/posting/{posting_idx}/")
+    Call<FeedDetailResponseDTO> feed_detail(@Header("Authorization") String token, @Path("posting_idx") int idx);
+
+    @POST("follow_feed/2/")
+    Call<FeedDetailLikeResponseDTO> feed_detail_like(@Header("Authorization") String token, @Body LikeDTO likeDTO);
+
+    @POST("place_detail/2/")
+    Call<FeedDetailPickResponseDTO> feed_detail_pick(@Header("Authorization") String token, @Body PickDTO pickDTO);
 
 }

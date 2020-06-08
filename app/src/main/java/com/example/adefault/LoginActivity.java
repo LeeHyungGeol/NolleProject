@@ -117,6 +117,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 ,loginResponseDTO.getUser().getSex(), loginResponseDTO.getToken());
                         Intent intent = new Intent(AppManager.getInstance().getContext(), MainActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 }
 
