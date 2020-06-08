@@ -554,10 +554,10 @@ public class SearchFragment extends Fragment implements OnBackPressedListener {
                         }
                     }
                     else {
-                        Drawable drawable = getResources().getDrawable(R.drawable.movieposter1);
-                        // drawable 타입을 bitmap으로 변경
-                        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                        result_itemList.add(new FirstRecommendData(bitmap));
+//                        Drawable drawable = getResources().getDrawable(R.drawable.movieposter1);
+//                        // drawable 타입을 bitmap으로 변경
+//                        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+//                        result_itemList.add(new FirstRecommendData(bitmap));
                     }
                 }
             }

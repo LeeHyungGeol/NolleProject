@@ -104,5 +104,14 @@ dependencies {
     //이미지 원형 변형 라이브러리
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
+    //아연
+
+
+    implementation 'com.jaredrummler:twodscrollview:1.0.1'
+    implementation 'com.android.support:design:29.0.0'
+
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+
 
 }

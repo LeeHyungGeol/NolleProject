@@ -14,6 +14,10 @@ import com.example.adefault.model.PlaceDetailDTO;
 import com.example.adefault.model.PlaceDetailResponseDTO;
 import com.example.adefault.model.PlacePickResponseDTO;
 import com.example.adefault.model.RegisterResponseDTO;
+import com.example.adefault.model.ReplyDTO;
+import com.example.adefault.model.ReplyResponseDTO;
+import com.example.adefault.model.ReplyWriteDTO;
+import com.example.adefault.model.ReplyWriteResponseDTO;
 import com.example.adefault.model.User;
 import com.example.adefault.model.feedDetail.FeedDetailLikeResponseDTO;
 import com.example.adefault.model.feedDetail.FeedDetailPickResponseDTO;
@@ -41,7 +45,7 @@ import retrofit2.http.Path;
 
 public interface RestApi {
 
-    String BASE_URL = "http://14cda9975e4f.ngrok.io/";
+    String BASE_URL = "http://f5ad55a614fb.ngrok.io/";
 
     //String BASE_URL = "http://172.30.1.42:8000/";
 
@@ -102,6 +106,12 @@ public interface RestApi {
 
     @GET("mypageApp/managefollow/{user_nickname}/")
     Call<OtherUserFollowResponseDTO> follow(@Header("Authorization") String token, @Path("user_nickname")String nickname);
+
+    @POST("follow_feed/3/")
+    Call<ReplyResponseDTO> reply(@Header("Authorization") String token, @Body ReplyDTO replyDTO);
+
+    @POST("commentApp/comment/{posting_idx}/")
+    Call<ReplyWriteResponseDTO> reply_write(@Header("Authorization") String token, @Body ReplyWriteDTO replyWriteDTO,@Path("posting_idx") String idx);
 
 
 }

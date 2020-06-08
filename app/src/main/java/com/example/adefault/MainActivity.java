@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.adefault.Decoration.OnBackPressedListener;
+import com.example.adefault.FeedPost.FollowFeedFragment;
 import com.example.adefault.manager.AppManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentTransaction ft;
     private CustomActionBar ca;
     private HomeFragment homefragment;
-    private MenuFragment menufragment;
+    private FollowFeedFragment menufragment;
     private MyPageFragment mypagefragment;
     private SearchFragment searchfragment;
     private Menu mMenu;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         homefragment = new HomeFragment();
-        menufragment = new MenuFragment();
+        menufragment = new FollowFeedFragment();
         searchfragment = new SearchFragment();
         mypagefragment = new MyPageFragment();
 
