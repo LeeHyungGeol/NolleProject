@@ -39,6 +39,7 @@
                         android:id="@+id/text_post_user_nickname"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
+                        android:textColor="@color/colorBlack"
                         android:padding="5dp"
                         android:gravity="center_vertical"
                         android:text="user_nickname" />
@@ -75,8 +76,8 @@
                 app:sliderIndicatorGravity="center_horizontal|bottom"
                 app:sliderIndicatorMargin="15dp"
                 app:sliderIndicatorOrientation="horizontal"
-                app:sliderIndicatorPadding="2dp"
-                app:sliderIndicatorRadius="1px"
+                app:sliderIndicatorPadding="5dp"
+                app:sliderIndicatorRadius="5px"
                 app:sliderIndicatorSelectedColor="#5A5A5A"
                 app:sliderIndicatorUnselectedColor="#FFF" />
 
@@ -117,7 +118,7 @@
                     <co.lujun.androidtagview.TagContainerLayout
                         android:id="@+id/title_tag"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_margin="0dp"
                         app:container_background_color="@android:color/transparent"
                         app:container_border_color="@android:color/transparent"
@@ -128,7 +129,7 @@
                         app:tag_border_color="@android:color/transparent"
                         app:tag_clickable="true"
                         app:tag_text_color="@android:color/black"
-                        app:tag_text_size="12sp"
+                        app:tag_text_size="10sp"
                         app:tag_theme="none"
                         app:vertical_interval="5dp" />
 
