@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -108,6 +110,18 @@ public class MyPageFragment extends Fragment implements MyPageLikeHistoryAdapter
     }
 
     private void addListener() {
+        myPagePickTextView.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                PickFragment pickFragment = new PickFragment();
+                fragmentTransaction.replace(R.id.Main_Frame,pickFragment);
+                fragmentTransaction.commit();
+            }
+        });
+
+
         myPageBoardCnt.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.os.Bundle;
@@ -73,7 +74,6 @@ public class PlaceDetailActivity extends AppCompatActivity implements PlaceDetai
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UserToken.setToken("8080461c4bda7c4894e1527f55cec9e2f7c15082d911f4e88988dda82ac436a4");
         setActionBar();
         setContentView(R.layout.activity_place_detail);
         init();
@@ -110,7 +110,9 @@ public class PlaceDetailActivity extends AppCompatActivity implements PlaceDetai
         tags = new ArrayList<>();
         pickBtn= findViewById(R.id.pickButton);
         // Define a Place ID.
-        placeId = "ChIJoXhD_eikfDURHVmg2okUC_w";
+        Intent intent = getIntent();
+        placeId= intent.getStringExtra("place_id");
+        placeId = "ChIJoXhD_eikfDURHVmg2okUC_w"; ////////////////////////////////////////////////////////////여기플레이스아이디
 
         placeDetailReviewRecylcer = findViewById(R.id.placeDetailReviewRecylcer);
         LinearLayoutManager placeDetailLayoutManager = new LinearLayoutManager(AppManager.getInstance().getContext());

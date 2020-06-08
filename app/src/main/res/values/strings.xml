@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Default</string>
 
     <string name="places_api_key">AIzaSyBLf4XF6AC1wJONoWVE6rtwcpQZLl8pXnU</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -22,6 +21,10 @@
     <string name="signout_success">Signout success</string>
     <string name="signout_fail">Signout fail</string>
     <string name="signout_fail_null">Please enter your id and password</string>
+
+
+    <string name="app_name">NOLLE</string>
+    <string name="search">추천 텍스트를 입력하세요.</string>
 
 
 </resources>
