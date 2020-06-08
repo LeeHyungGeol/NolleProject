@@ -190,7 +190,7 @@ public class FollowFeedFragment extends Fragment implements FollowFeedContract.V
 
     @Override
     public void onFollowFeedLikeClicked(int position, View v) {
-        boolean valid = Boolean.valueOf(mFollowFeedResponseDTO.getFollowFeedReview_data().get(position).getLike_valid());
+        boolean valid = Boolean.valueOf(dto.getFollowFeedReview_data().get(position).getLike_valid());
         ImageView like = (ImageView) v.findViewById(R.id.image_post_like);
 
         if(valid) {
