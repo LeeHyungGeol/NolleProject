@@ -12,11 +12,13 @@ import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.adefault.FeedDetailActivity;
 import com.example.adefault.PlaceDetailActivity;
 import com.example.adefault.data.FirstRecommendData;
 import com.example.adefault.R;
 import com.example.adefault.manager.AppManager;
+import com.example.adefault.util.TaskServer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,7 +50,9 @@ public class SearchFirstRecommendAdapter extends RecyclerView.Adapter<SearchFirs
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         FirstRecommendData item = itemList.get(position);
-        holder.imageView.setImageBitmap(item.getImage());
+        Glide.with(context)
+                .load(item.getImage())
+                .into(holder.imageView);
         holder.imageView.setOnClickListener(new View.OnClickListener(){
 
             @Override

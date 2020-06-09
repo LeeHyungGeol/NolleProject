@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import com.google.android.gms.maps.model.LatLng;
 
 public class PickData {
-    private Bitmap image;
+    private String image;
     private String placeName;
     private int rating;
     private LatLng location;
@@ -48,7 +48,7 @@ public class PickData {
     private float lat;
     private float lng;
 
-    public PickData(Bitmap image, String placeName, int rating, LatLng location,String place_id){
+    public PickData(String image, String placeName, int rating, LatLng location,String place_id){
         this.image = image;
         this.placeName = placeName;
         this.rating = rating;
@@ -56,7 +56,7 @@ public class PickData {
         this.place_id = place_id;
     }
 
-    public Bitmap getImage()
+    public String getImage()
     {
         return this.image;
     }

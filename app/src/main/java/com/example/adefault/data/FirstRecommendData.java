@@ -3,7 +3,7 @@ package com.example.adefault.data;
 import android.graphics.Bitmap;
 
 public class FirstRecommendData {
-    private Bitmap image;
+    private String image;
 
     public String getPlace_id() {
         return place_id;
@@ -15,15 +15,15 @@ public class FirstRecommendData {
 
     private String place_id;
 
-    public Bitmap getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Bitmap image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
-    public FirstRecommendData(Bitmap image , String place_id){
+    public FirstRecommendData(String image , String place_id){
         this.image= image;
         this.place_id  = place_id;
     }

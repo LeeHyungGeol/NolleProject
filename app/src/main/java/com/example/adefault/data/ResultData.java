@@ -3,7 +3,7 @@ package com.example.adefault.data;
 import android.graphics.Bitmap;
 
 public class ResultData {
-    private Bitmap image;
+    private String image;
     private String placeName;
     private int rating;
     private String rcm_person;
@@ -28,7 +28,7 @@ public class ResultData {
 
     private String place_id;
 
-    public ResultData(Bitmap image, String placeName, int rating, String rcm_personm,String place_id){
+    public ResultData(String image, String placeName, int rating, String rcm_personm,String place_id){
         this.image = image;
         this.placeName = placeName;
         this.rating = rating;
@@ -37,7 +37,7 @@ public class ResultData {
         this.place_id = place_id;
     }
 
-    public Bitmap getImage()
+    public String getImage()
     {
         return this.image;
     }

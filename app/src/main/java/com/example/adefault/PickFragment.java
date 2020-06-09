@@ -349,7 +349,7 @@ public class PickFragment extends Fragment implements OnMapReadyCallback {
                     Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
 
-                    result_itemList.add(new PickData(bitmap,place.getName()
+                    result_itemList.add(new PickData("",place.getName()
                             , (int) place.getRating(),place.getLatLng(),JsonObj.get("place_id").getAsString()));
 
                 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.adefault.PlaceDetailActivity;
 import com.example.adefault.data.PickData;
 import com.example.adefault.R;
@@ -50,7 +51,17 @@ public class PickPlaceAdapter extends CardSliderAdapter<PickPlaceAdapter.PickVie
     @Override
     public void bindVH(PickViewHolder pickViewHolder, int i) {
         PickData item = itemList.get(i);
-        pickViewHolder.imageView.setImageBitmap(itemList.get(i).getImage());
+
+        if(itemList.get(i).getImage()!="")
+        {
+            Glide.with(context)
+                    .load(itemList.get(i).getImage())
+                    .into(pickViewHolder.imageView);
+        }
+        else{
+            pickViewHolder.imageView.setImageResource(R.drawable.movieposter1);
+        }
+        //pickViewHolder.imageView.setImageBitmap(itemList.get(i).getImage());
         pickViewHolder.textView2.setText(itemList.get(i).getPlaceName());
         pickViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -14,11 +14,13 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.adefault.FeedDetailActivity;
 import com.example.adefault.PlaceDetailActivity;
 import com.example.adefault.R;
 import com.example.adefault.data.ResultData;
 import com.example.adefault.manager.AppManager;
+import com.example.adefault.util.TaskServer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,7 +52,9 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ResultData item = itemList.get(position);
-        holder.place_image.setImageBitmap(item.getImage());
+        Glide.with(context)
+                .load(item.getImage())
+                .into( holder.place_image);
         holder.place_name.setText(item.getPlaceName());
         holder.place_ratingbar.setRating(item.getRating());
         holder.place_rating.setText(Integer.toString(item.getRating()));

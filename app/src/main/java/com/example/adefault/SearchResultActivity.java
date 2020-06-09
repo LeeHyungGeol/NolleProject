@@ -27,6 +27,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.adefault.Decoration.Recommend;
 import com.example.adefault.Decoration.SearchResult;
 import com.example.adefault.Decoration.SearchResultDecoration;
@@ -35,6 +36,7 @@ import com.example.adefault.data.ResultData;
 import com.example.adefault.manager.AppManager;
 import com.example.adefault.manager.ImageManager;
 import com.example.adefault.util.RetrofitClient;
+import com.example.adefault.util.TaskServer;
 import com.example.adefault.util.UserToken;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -239,7 +241,15 @@ public class SearchResultActivity extends AppCompatActivity {
                }
            }
         );
-        first_image.setImageBitmap(resultData.getImage());
+        if(resultData.getImage()!=""){
+            Glide.with(this)
+                    .load(resultData.getImage())
+                    .into(first_image);
+        }
+        else{
+            first_image.setImageResource(R.drawable.movieposter1);
+        }
+
         place_name.setText(resultData.getPlaceName());
         first_ratingbar.setRating(resultData.getRating());
         first_rating.setText(Integer.toString(resultData.getRating()));
@@ -357,10 +367,10 @@ public class SearchResultActivity extends AppCompatActivity {
                         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
                         if (j == 0 && i == 0) {
-                            first_result = new ResultData(bitmap, place.getName()
+                            first_result = new ResultData("", place.getName()
                                     , (int) place.getRating(), nickname,JsonObj.get("place_id").getAsString());
                         } else {
-                            result_itemList.add(new ResultData(bitmap, place.getName()
+                            result_itemList.add(new ResultData("", place.getName()
                                     , (int) place.getRating(), nickname,JsonObj.get("place_id").getAsString()));
                         }
                     }

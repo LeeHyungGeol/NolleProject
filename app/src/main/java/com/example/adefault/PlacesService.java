@@ -194,12 +194,12 @@ public class PlacesService {
             place = new Place();
             place.setIcon(jsonObj.getString("icon"));
             place.setName(jsonObj.getString("name"));
-            JSONObject jsonObject =jsonObj.getJSONObject("geometry");
-            JSONObject jsonObject2 =jsonObject.getJSONObject("location");
+            JSONObject jsonObject = jsonObj.getJSONObject("geometry");
+            JSONObject jsonObject2 = jsonObject.getJSONObject("location");
             Double lat = jsonObject2.getDouble("lat");
             Double lng = jsonObject2.getDouble("lng");
 
-            place.setLocation(new LatLng(lat,lng));
+            place.setLocation(new LatLng(lat, lng));
             if (!jsonObj.isNull("rating")) {
                 place.setRating(jsonObj.getDouble("rating"));
             } else {
@@ -222,49 +222,26 @@ public class PlacesService {
         return place;
     }
 
-    public static Bitmap Photo(String photo_reference) {
+    public static String Photo(String photo_reference) {
         HttpURLConnection conn = null;
         Bitmap imgBitmap = null;
         BufferedInputStream bis = null;
 
+
+        StringBuilder sb = new StringBuilder(PLACES_API_BASE);
+        sb.append(TYPE_PHOTO);
+        sb.append("?sensor=false");
+        sb.append("&key=" + API_KEY);
         try {
-            StringBuilder sb = new StringBuilder(PLACES_API_BASE);
-            sb.append(TYPE_PHOTO);
-            sb.append("?sensor=false");
-            sb.append("&key=" + API_KEY);
-            try {
-                sb.append("&photoreference=" + URLEncoder.encode(photo_reference, "utf8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            sb.append("&maxwidth=" + 1600);
-            sb.append("&maxheight=" + 1600);
-
-            try {
-                URL url = new URL(sb.toString());
-                conn = (HttpURLConnection) url.openConnection();
-                conn.connect();
-
-                int nSize = conn.getContentLength();
-                bis = new BufferedInputStream(conn.getInputStream(), nSize);
-                imgBitmap = BitmapFactory.decodeStream(bis);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (bis != null) {
-                    try {
-                        bis.close();
-                    } catch (IOException e) {
-                    }
-                }
-                if (conn != null) {
-                    conn.disconnect();
-                }
-            }
-        } catch (Exception e) {
+            sb.append("&photoreference=" + URLEncoder.encode(photo_reference, "utf8"));
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return imgBitmap;
+        sb.append("&maxwidth=" + 1600);
+        sb.append("&maxheight=" + 1600);
+
+
+        return sb.toString();
 
     }
 }
