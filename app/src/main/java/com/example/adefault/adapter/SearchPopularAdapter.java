@@ -15,11 +15,13 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.adefault.FeedDetailActivity;
 import com.example.adefault.R;
 import com.example.adefault.data.ReviewData;
 import com.example.adefault.manager.AppManager;
 import com.example.adefault.util.TaskServer;
+import com.example.adefault.util.UserToken;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,7 +54,10 @@ public class SearchPopularAdapter extends RecyclerView.Adapter<SearchPopularAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         ReviewData item = itemList.get(position);
         if(item.getImage()!="none") {
-            new DrawUrlImageTask(holder.imageView).execute(TaskServer.ip+item.getImage());
+            Glide.with(context)
+                    .load(TaskServer.ip+item.getImage())
+                    .into(holder.imageView);
+            //new DrawUrlImageTask(holder.imageView).execute(TaskServer.ip+item.getImage());
 
         }else{
             holder.imageView.setImageAlpha(R.drawable.movieposter1);

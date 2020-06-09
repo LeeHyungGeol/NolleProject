@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.adefault.FeedDetailActivity;
 import com.example.adefault.R;
 import com.example.adefault.data.ReviewData;
@@ -55,7 +56,10 @@ public class SearchRealtimeAdapter extends RecyclerView.Adapter<SearchRealtimeAd
         Log.d("data",Integer.toString(itemList.size()));
         Log.d("data",holder.imageView.toString());
         if(item.getImage()!="none"){
-            new DrawUrlImageTask(holder.imageView).execute(TaskServer.ip+item.getImage());
+            Glide.with(context)
+                    .load(TaskServer.ip+item.getImage())
+                    .into(holder.imageView);
+            //new DrawUrlImageTask(holder.imageView).execute(TaskServer.ip+item.getImage());
         }
         else{
             holder.imageView.setImageAlpha(R.drawable.movieposter1);

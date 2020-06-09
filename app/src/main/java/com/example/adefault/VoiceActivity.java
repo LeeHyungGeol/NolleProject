@@ -127,6 +127,7 @@ public class VoiceActivity extends AppCompatActivity {
                     break;
                 case SpeechRecognizer.ERROR_NETWORK:
                     animationView.cancelAnimation();
+
                     message = "네트워크 에러";
                     break;
                 case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
