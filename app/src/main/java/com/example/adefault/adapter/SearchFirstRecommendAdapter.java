@@ -1,6 +1,7 @@
 package com.example.adefault.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -11,8 +12,11 @@ import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.adefault.FeedDetailActivity;
+import com.example.adefault.PlaceDetailActivity;
 import com.example.adefault.data.FirstRecommendData;
 import com.example.adefault.R;
+import com.example.adefault.manager.AppManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +49,16 @@ public class SearchFirstRecommendAdapter extends RecyclerView.Adapter<SearchFirs
     public void onBindViewHolder(ViewHolder holder, int position) {
         FirstRecommendData item = itemList.get(position);
         holder.imageView.setImageBitmap(item.getImage());
+        holder.imageView.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                String place_id = item.getPlace_id();
+                Intent activityIntent = new Intent(AppManager.getInstance().getContext(), PlaceDetailActivity.class);
+                activityIntent.putExtra("place_id", place_id);
+                context.startActivity(activityIntent);
+            }
+        });
 //        holder.textview.setText(item);
 //        holder.textview.setTag(item);
 //        holder.textview.setOnClickListener(onClickItem);
@@ -59,10 +73,8 @@ public class SearchFirstRecommendAdapter extends RecyclerView.Adapter<SearchFirs
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imageView;
-
         public ViewHolder(View itemView) {
             super(itemView);
-
             imageView = itemView.findViewById(R.id.item_image);
         }
     }

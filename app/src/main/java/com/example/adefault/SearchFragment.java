@@ -542,10 +542,10 @@ public class SearchFragment extends Fragment implements OnBackPressedListener {
                             {
                                 tmp = (JSONObject) place.getPhotos().get(0);//인덱스 번호로 접근해서 가져온다.
                                 photo_reference = (String) tmp.get("photo_reference");
-                                result_itemList.add(new FirstRecommendData(PlacesService.Photo(photo_reference)));
+                                result_itemList.add(new FirstRecommendData(PlacesService.Photo(photo_reference),JsonObj.get("place_id").getAsString()));
                             }
                             else{
-                                result_itemList.add(new FirstRecommendData(PlacesService.Photo(null)));
+                                result_itemList.add(new FirstRecommendData(PlacesService.Photo(null),JsonObj.get("place_id").getAsString()));
                             }
 
                         } catch (JSONException e) {
