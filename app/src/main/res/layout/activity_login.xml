@@ -111,27 +111,6 @@
             android:textStyle="bold" />
 
 
-        <Button
-            android:id="@+id/button_kakaoLogin"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_below="@id/textView_find_password"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/kakao_login_btn_medium_narrow" />
-
-        <Button
-            android:id="@+id/button_naverLogin"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="80dp"
-            android:layout_below="@id/textView_find_password"
-            android:layout_toRightOf="@id/button_kakaoLogin"
-            android:background="@drawable/naver_login_btn" />
 
     </RelativeLayout>
 

@@ -21,7 +21,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface FollowFeedAPI {
-    static String BASE_URL = "http://f2171cc720cb.ngrok.io/";
+    static String BASE_URL = "http://42725a5e1a0b.ngrok.io/";
 
     //@Header("Authorization") String token
 

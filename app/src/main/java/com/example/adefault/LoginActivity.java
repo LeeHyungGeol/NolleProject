@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         setUser(loginResponseDTO.getUser().getIdx(), loginResponseDTO.getUser().getUser_email(), loginResponseDTO.getUser().getUser_nm()
                                 ,loginResponseDTO.getUser().getNickname(), loginResponseDTO.getUser().getPassword(), loginResponseDTO.getUser().getAge()
                                 ,loginResponseDTO.getUser().getSex(), loginResponseDTO.getToken());
-                        Intent intent = new Intent(AppManager.getInstance().getContext(), MainActivity.class);
+                        Intent intent = new Intent(AppManager.getInstance().getContext(), ServiceChooseActivity.class);
                         startActivity(intent);
                         finish();
                     }

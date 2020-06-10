@@ -18,13 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SearchResultActivity"></activity>
+        <activity android:name=".ServiceChooseActivity"></activity>
+        <activity android:name=".SearchResultActivity" />
         <activity
             android:name=".ReplyActivity"
-            android:theme="@style/popupTheme">
-
-        </activity>
-
+            android:theme="@style/popupTheme"></activity>
         <activity android:name=".FeedDetailActivity" />
         <activity android:name=".MyPostingListActivity" />
         <activity android:name=".OtherUserFollwerListActivity" />
