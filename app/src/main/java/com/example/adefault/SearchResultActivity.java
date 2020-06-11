@@ -253,7 +253,7 @@ public class SearchResultActivity extends AppCompatActivity {
         place_name.setText(resultData.getPlaceName());
         first_ratingbar.setRating(resultData.getRating());
         first_rating.setText(Integer.toString(resultData.getRating()));
-        first_rcm_person.setText(resultData.getRcm_person() + "님이 추천한 장소");
+        first_rcm_person.setText(resultData.getRcm_person());
     }
 
     private View.OnClickListener onClickItem = new View.OnClickListener() {

@@ -32,7 +32,7 @@ public class ResultData {
         this.image = image;
         this.placeName = placeName;
         this.rating = rating;
-        this.rcm_person = rcm_person;
+        this.rcm_person = rcm_personm;
         this.posting_id = posting_id;
         this.place_id = place_id;
     }

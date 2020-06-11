@@ -115,11 +115,12 @@
             <TextView
                 android:id="@+id/first_rcm_person"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:layout_gravity="left"
                 android:layout_weight="1"
                 android:text="사용자님이 추천한 장소"
-                android:textSize="8dp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/first_see_image"

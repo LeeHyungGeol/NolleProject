@@ -268,38 +268,6 @@ public class SearchFragment extends Fragment implements OnBackPressedListener {
 
     }
 
-//    public String detection_image(){
-//            String result;
-//            RequestBody imgFileReqBody = RequestBody.create(MediaType.parse("image/*"), imgFile);
-//            final MultipartBody.Part image = MultipartBody.Part.createFormData("image", imgFile.getName(), imgFileReqBody);
-//
-//            Call<ImageResult> call = retrofitClient.apiService.getretrofitdata_search_result_image(image);
-//            call.enqueue(new Callback<ImageResult>() {
-//                @Override
-//                public void onResponse(Call<ImageResult> call, Response<ImageResult> response) {
-//
-//                    System.out.println("response.isSuccessful : " + response.isSuccessful());
-//                    if (response.isSuccessful()) {
-//                        ImageResult imageResult = response.body();
-//                        if(imageResult!=null){
-//                            result=imageResult.getRecommendation();
-//                        }
-//                        else{
-//                            result="";
-//                        }
-//                    }
-//
-//                }
-//                @Override
-//                public void onFailure(Call<ImageResult> call, Throwable t) {
-//                    System.out.println(t.getMessage());
-//
-//
-//                }
-//            });
-//            return result;
-//        }
-
 
 
     private void init() {
