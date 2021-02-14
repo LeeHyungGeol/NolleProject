@@ -70,8 +70,3 @@
 ### 시연 영상
 
 [https://www.youtube.com/watch?v=lJCyzy5Unc0](https://www.youtube.com/watch?v=lJCyzy5Unc0)
-
-## [🛠 실행화면 및 자세한 설명]
-
-[노션 문서](https://www.notion.so/NOLLE-Android-89626697effc4ac8949cc3c8e6f3cc9e)
-
